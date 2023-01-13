@@ -32,9 +32,7 @@ jobs:
         shell: bash
         run: |
           if [ "${{ matrix.platform.name }}" == "Linux Clang" ]; then
-            export CLANG_PATH=$(which clang)
-            export CLANGPP_PATH=$(which clang++)
-            cmake -S . -B build -DCMAKE_INSTALL_PREFIX=install -DCMAKE_C_COMPILER=$CLANG_PATH -DCMAKE_CXX_COMPILER=$CLANGPP_PATH ${{matrix.config.flags}}
+            cmake -S . -B build -DCMAKE_INSTALL_PREFIX=install -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ ${{matrix.config.flags}}
           else
             cmake -S . -B build -DCMAKE_INSTALL_PREFIX=install ${{matrix.platform.flags}} ${{matrix.config.flags}}
           fi

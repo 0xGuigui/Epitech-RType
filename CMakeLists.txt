@@ -4,6 +4,8 @@ project(r-type LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
+include_directories(includes)
+
 include(FetchContent)
 
 FetchContent_Declare(SFML
@@ -16,13 +18,14 @@ set(SERVER_SRC src/server/main.cpp)
 set(CLIENT_SRC src/client/main.cpp)
 set(PROJECT_LIBS sfml-graphics sfml-window sfml-system sfml-network sfml-audio)
 
-include_directories(includes ${SFML_INCLUDE_DIR})
-
 add_executable(r-type_server ${SERVER_SRC} ${SHARED_SRC})
 add_executable(r-type_client ${CLIENT_SRC} ${SHARED_SRC})
 
 target_link_libraries(r-type_server ${PROJECT_LIBS})
 target_link_libraries(r-type_client ${PROJECT_LIBS})
+
+target_include_directories(r-type_server PUBLIC ${SFML_INCLUDE_DIR})
+target_include_directories(r-type_client PUBLIC ${SFML_INCLUDE_DIR})
 
 if (WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(TARGET r-type_server POST_BUILD

@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "lib/lib.h"
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({200, 200}), "SFML works!");

@@ -20,12 +20,14 @@ add_executable(r-type_server src/server/main.cpp)
 
 # Link the r-type_server target with the shared library and SFML
 target_link_libraries(r-type_server PRIVATE shared sfml-graphics)
+target_include_directories(r-type_server PRIVATE ${SFML_INCLUDE_DIR})
 
 # Add the src/client directory as a target
 add_executable(r-type_client src/client/main.cpp)
 
 # Link the r-type_client target with the shared library and SFML
 target_link_libraries(r-type_client PRIVATE shared sfml-graphics)
+target_include_directories(r-type_client PRIVATE ${SFML_INCLUDE_DIR})
 
 if (WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(TARGET r-type_server POST_BUILD

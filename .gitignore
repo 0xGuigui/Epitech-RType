@@ -2,6 +2,15 @@
 r-type_server
 r-type_client
 
+build
+out
+.cache
+.vs
+.vscode
+
+# libraries
+external/
+
 # cmake files
 cmake-build-debug/
 

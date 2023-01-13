@@ -3,7 +3,7 @@ project(r-type LANGUAGES CXX)
 
 include_directories(includes)
 
-set(SHARED_SRC lib/example.cpp)
+set(SHARED_SRC lib/error.cpp)
 set(SERVER_SRC server/main.cpp)
 set(CLIENT_SRC client/main.cpp)
 

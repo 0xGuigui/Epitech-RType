@@ -1,5 +1,5 @@
 #include "SFML/Graphics.hpp"
-#include "rtype.h"
+#include "client/rtype.h"
 
 // init global instance of RType
 RType rtype("resources");

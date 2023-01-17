@@ -5,7 +5,7 @@ include_directories(includes)
 
 set(SHARED_SRC lib/error.cpp)
 set(SERVER_SRC server/main.cpp)
-set(CLIENT_SRC client/main.cpp client/includes/keyboard_manager.cpp)
+set(CLIENT_SRC client/main.cpp client/keyboard_manager.cpp)
 
 include(FetchContent)
 FetchContent_Declare(SFML

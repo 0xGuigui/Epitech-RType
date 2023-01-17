@@ -4,6 +4,7 @@
 #include <SFML/Audio.hpp>
 #include <string>
 #include "resource_manager.h"
+#include "keyboard_manager.h"
 
 struct RType {
     explicit RType(const std::string &basePath) : textures(basePath + "/textures"), fonts(basePath + "/fonts") {}
@@ -18,6 +19,7 @@ struct RType {
 
     ResourceManager<sf::Texture> textures;
     ResourceManager<sf::Font> fonts;
+    KeyboardManager keyboard;
 };
 
 extern RType rtype;

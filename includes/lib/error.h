@@ -22,3 +22,8 @@ class KeyboardError : RTypeError {
 public:
     explicit KeyboardError(std::string message) : RTypeError(std::move(message)) {};
 };
+
+class UiError : RTypeError {
+public:
+    explicit UiError(std::string message) : RTypeError(std::move(message)) {};
+};

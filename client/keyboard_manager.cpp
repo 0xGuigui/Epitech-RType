@@ -1,35 +1,40 @@
 #include "client/keyboard_manager.h"
 #include "lib/error.h"
 
-void KeyboardManager::bind(const sf::Keyboard::Key &key, const std::function<void()> &onPress, const std::function<void()> &onRelease) {
+void KeyboardManager::bind(const sf::Keyboard::Key &key, const std::function<void()> &onPress, const std::function<void()> &onRelease, const bool &override) {
+    if (_map.count(key) && !override)
+        throw KeyboardError("new key is already bound");
     _map[key] = {onPress, onRelease};
 }
 
-void KeyboardManager::bind(const sf::Keyboard::Key &key, const std::pair<std::function<void()>, std::function<void()>> &pair) {
+void KeyboardManager::bind(const sf::Keyboard::Key &key, const std::pair<std::function<void()>, std::function<void()>> &pair, const bool &override) {
+    if (_map.count(key) && !override)
+        throw KeyboardError("new key is already bound");
     _map[key] = pair;
 }
 
-[[maybe_unused]] void KeyboardManager::setOnPress(const sf::Keyboard::Key &key, std::function<void()> &onPress) {
+[[maybe_unused]] void KeyboardManager::setOnPress(const sf::Keyboard::Key &key, std::function<void()> &onPress, const bool &override) {
     std::function<void()> onRelease = []() {};
 
+    if (_map.count(key) && !override)
+        throw KeyboardError("new key is already bound");
     if (_map.count(key))
         onRelease = _map[key].second;
-    bind(key, onPress, onRelease);
+    bind(key, onPress, onRelease, override);
 }
 
-[[maybe_unused]] void KeyboardManager::setOnRelease(const sf::Keyboard::Key &key, std::function<void()> &onRelease) {
+[[maybe_unused]] void KeyboardManager::setOnRelease(const sf::Keyboard::Key &key, std::function<void()> &onRelease, const bool &override) {
     std::function<void()> onPress = []() {};
 
+    if (_map.count(key) && !override)
+        throw KeyboardError("new key is already bound");
     if (_map.count(key))
         onPress = _map[key].first;
-    bind(key, onPress, onRelease);
+    bind(key, onPress, onRelease, override);
 }
 
-[[maybe_unused]] void KeyboardManager::rebind(const sf::Keyboard::Key &oldKey, const sf::Keyboard::Key &newKey, const bool &override = false) {
-    if (_map.count(newKey) && !override)
-        throw KeyboardError("new key is already bound");
-
-    bind(newKey, _map[oldKey]);
+[[maybe_unused]] void KeyboardManager::rebind(const sf::Keyboard::Key &oldKey, const sf::Keyboard::Key &newKey, const bool &override) {
+    bind(newKey, _map[oldKey], override);
     unbind(oldKey);
 }
 

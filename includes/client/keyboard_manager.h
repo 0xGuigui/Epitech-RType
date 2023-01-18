@@ -12,15 +12,15 @@ private:
 public:
     KeyboardManager() = default;
 
-    void bind(const sf::Keyboard::Key &key, const std::function<void()> &onPress = []() {}, const std::function<void()> &onRelease = []() {});
+    void bind(const sf::Keyboard::Key &key, const std::function<void()> &onPress = []() {}, const std::function<void()> &onRelease = []() {}, const bool &override = false);
 
-    void bind(const sf::Keyboard::Key &key, const std::pair<std::function<void()>, std::function<void()>> &pair);
+    void bind(const sf::Keyboard::Key &key, const std::pair<std::function<void()>, std::function<void()>> &pair, const bool &override = false);
 
-    [[maybe_unused]] void setOnPress(const sf::Keyboard::Key &key, std::function<void()> &onPress);
+    [[maybe_unused]] void setOnPress(const sf::Keyboard::Key &key, std::function<void()> &onPress, const bool &override = false);
 
-    [[maybe_unused]] void setOnRelease(const sf::Keyboard::Key &key, std::function<void()> &onRelease);
+    [[maybe_unused]] void setOnRelease(const sf::Keyboard::Key &key, std::function<void()> &onRelease, const bool &override = false);
 
-    [[maybe_unused]] void rebind(const sf::Keyboard::Key &oldKey, const sf::Keyboard::Key &newKey, const bool &override);
+    [[maybe_unused]] void rebind(const sf::Keyboard::Key &oldKey, const sf::Keyboard::Key &newKey, const bool &override = false);
 
     [[maybe_unused]] void unbind(const sf::Keyboard::Key &key);
 

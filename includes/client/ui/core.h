@@ -25,9 +25,14 @@ protected:
 public:
     explicit UiComponent(T &SFMLElement) : SFMLElement(SFMLElement) {}
 
-    T &getSFMLElement() const;
+    T &getSFMLElement() const {
+        return SFMLElement;
+    }
 
-    void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const override {
+        states.transform *= getTransform();
+        target.draw(SFMLElement, states);
+    }
 
     bool handleEvent(sf::Event &event) override = 0;
 };
@@ -37,7 +42,9 @@ class StatelessUiComponent : public UiComponent<T> {
 public:
     explicit StatelessUiComponent(T &SFMLElement) : UiComponent<T>(SFMLElement) {}
 
-    bool handleEvent(sf::Event &event) override;
+    bool handleEvent(sf::Event &event) override {
+        return false;
+    }
 };
 
 template<typename T>
@@ -46,7 +53,15 @@ public:
     explicit StatefulUiComponent(T &SFMLElement, std::function<void()> onClick) : UiComponent<T>(SFMLElement),
                                                                                   onClick(std::move(onClick)) {}
 
-    bool handleEvent(sf::Event &event) override;
+    bool handleEvent(sf::Event &event) override {
+        if (event.type == sf::Event::MouseButtonPressed) {
+            if (this->getSFMLElement().getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                onClick();
+                return true;
+            }
+        }
+        return false;
+    }
 
 private:
     std::function<void()> onClick;

@@ -31,7 +31,7 @@ public:
 
     void addLayer(const layer &layer);
 
-    void addLayer(const std::vector<IUiComponent *> &components, bool full_screen = false, bool render = true);
+    void addLayer(const std::vector<IUiComponent *> &components, bool full_screen = false);
 
     void addLayerComponent(IUiComponent &component, int layer);
 
@@ -40,4 +40,6 @@ public:
     void removeLayerComponent(int layer, std::optional<int> component = std::nullopt);
 
     void removeLayerComponent(IUiComponent &component);
+
+    void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default);
 };

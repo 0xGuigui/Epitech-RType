@@ -7,6 +7,8 @@
 
 class IUiComponent {
 public:
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
+
     virtual ~IUiComponent() = default;
 };
 
@@ -23,6 +25,7 @@ public:
     }
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override {
+        states.transform *= getTransform();
         target.draw(SFMLElement, states);
     }
 

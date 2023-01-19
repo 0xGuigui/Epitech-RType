@@ -6,12 +6,15 @@ RType rtype("resources");
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({200, 200}), "SFML works!");
-    sf::RectangleShape shape({100.f, 100.f});
+    UiSystem uiSystem;
 
+    sf::RectangleShape shape({100.f, 100.f});
     shape.setFillColor(sf::Color::Green);
     shape.setPosition({50.f, 50.f});
 
     auto test = StatelessUiComponent<sf::RectangleShape>(shape);
+
+    uiSystem.addLayer({&test}, false);
 
     while (window.isOpen()) {
         sf::Event event{};
@@ -22,7 +25,7 @@ int main() {
             }
         }
         window.clear();
-        window.draw(test);
+        uiSystem.draw(window);
         window.display();
     }
 }

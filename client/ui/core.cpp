@@ -32,8 +32,8 @@ void UiSystem::addLayer(const layer &layer) {
     computeRenderedLayers();
 }
 
-void UiSystem::addLayer(const std::vector<IUiComponent *> &components, bool full_screen, bool render) {
-    this->addLayer({components, full_screen, render});
+void UiSystem::addLayer(const std::vector<IUiComponent *> &components, bool full_screen) {
+    this->addLayer({components, full_screen, true});
 }
 
 void UiSystem::addLayerComponent(IUiComponent &component, int layer) {
@@ -74,4 +74,14 @@ void UiSystem::removeLayerComponent(IUiComponent &component) {
         }
     }
     throw UiError("Component not found");
+}
+
+void UiSystem::draw(sf::RenderTarget &target, sf::RenderStates states) {
+    for (auto &layer: _layers) {
+        if (layer.render) {
+            for (auto &component: layer.components) {
+                component->draw(target, states);
+            }
+        }
+    }
 }

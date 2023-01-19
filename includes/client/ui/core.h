@@ -5,9 +5,12 @@
 #include <optional>
 #include "SFML/Graphics.hpp"
 #include "components.h"
+#include "lib/error.h"
+
+#define UI_LAYER_LIMIT 10
 
 struct layer {
-    std::vector<UiComponent *> components;
+    std::vector<IUiComponent *> components;
     // tell if the menu take the entire screen or not
     bool full_screen = false;
     bool render = true;
@@ -19,18 +22,22 @@ private:
 
     void computeRenderedLayers();
 
+    void checkLayer(int layer) const;
+
+    void checkComponent(int layer, int component) const;
+
 public:
     UiSystem() = default;
 
     void addLayer(const layer &layer);
 
-    void addLayer(const std::vector<UiComponent *>& components, bool full_screen = false, bool render = true);
+    void addLayer(const std::vector<IUiComponent *> &components, bool full_screen = false, bool render = true);
 
-    void addLayerComponent(UiComponent &component, int layer);
+    void addLayerComponent(IUiComponent &component, int layer);
 
     void removeLayer(std::optional<int> layer = std::nullopt);
 
     void removeLayerComponent(int layer, std::optional<int> component = std::nullopt);
 
-    void removeLayerComponent(UiComponent &component);
+    void removeLayerComponent(IUiComponent &component);
 };

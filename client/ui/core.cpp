@@ -85,3 +85,15 @@ void UiSystem::draw(sf::RenderTarget &target, sf::RenderStates states) {
         }
     }
 }
+
+void UiSystem::dispatchEvent(sf::Event &event) {
+    for (auto &layer: _layers) {
+        if (layer.render) {
+            for (auto &component: layer.components) {
+                if (component->handleEvent(event)) {
+                    return;
+                }
+            }
+        }
+    }
+}

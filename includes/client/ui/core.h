@@ -1,13 +1,56 @@
 #pragma once
 
 #include <vector>
-#include <array>
 #include <optional>
-#include "SFML/Graphics.hpp"
-#include "components.h"
+#include <functional>
+#include <SFML/Graphics.hpp>
 #include "lib/error.h"
 
 #define UI_LAYER_LIMIT 10
+
+class IUiComponent {
+public:
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
+
+    virtual bool handleEvent(sf::Event &event) = 0;
+
+    virtual ~IUiComponent() = default;
+};
+
+template<typename T>
+class UiComponent : public IUiComponent, public sf::Drawable, public sf::Transformable {
+protected:
+    T &SFMLElement;
+
+public:
+    explicit UiComponent(T &SFMLElement) : SFMLElement(SFMLElement) {}
+
+    T &getSFMLElement() const;
+
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+
+    bool handleEvent(sf::Event &event) override = 0;
+};
+
+template<typename T>
+class StatelessUiComponent : public UiComponent<T> {
+public:
+    explicit StatelessUiComponent(T &SFMLElement) : UiComponent<T>(SFMLElement) {}
+
+    bool handleEvent(sf::Event &event) override;
+};
+
+template<typename T>
+class StatefulUiComponent : public UiComponent<T> {
+public:
+    explicit StatefulUiComponent(T &SFMLElement, std::function<void()> onClick) : UiComponent<T>(SFMLElement),
+                                                                                  onClick(std::move(onClick)) {}
+
+    bool handleEvent(sf::Event &event) override;
+
+private:
+    std::function<void()> onClick;
+};
 
 struct layer {
     std::vector<IUiComponent *> components;
@@ -42,4 +85,6 @@ public:
     void removeLayerComponent(IUiComponent &component);
 
     void draw(sf::RenderTarget &target, sf::RenderStates states = sf::RenderStates::Default);
+
+    void dispatchEvent(sf::Event &event);
 };

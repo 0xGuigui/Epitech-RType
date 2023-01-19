@@ -12,17 +12,23 @@ int main() {
     shape.setFillColor(sf::Color::Green);
     shape.setPosition({50.f, 50.f});
 
-    auto test = StatelessUiComponent<sf::RectangleShape>(shape);
+    // green box that turn red when clicked
+    auto test = StatefulUiComponent<sf::RectangleShape>(shape, [&shape]() {
+        shape.setFillColor(sf::Color::Red);
+    });
 
     uiSystem.addLayer({&test}, false);
 
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
-            rtype.keyboard.update(event);
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
+            // handle user controls
+            rtype.keyboard.update(event);
+            // handle ui events such as click or hover
+            uiSystem.dispatchEvent(event);
         }
         window.clear();
         uiSystem.draw(window);

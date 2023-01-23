@@ -5,6 +5,7 @@
 #include <string>
 #include "client/resource_manager.h"
 #include "client/keyboard_manager.h"
+#include "client/world.h"
 
 struct RType {
     explicit RType(const std::string &basePath) : textures(basePath + "/textures"), fonts(basePath + "/fonts") {}
@@ -20,6 +21,7 @@ struct RType {
     ResourceManager<sf::Texture> textures;
     ResourceManager<sf::Font> fonts;
     KeyboardManager keyboard;
+    World world;
 };
 
 extern RType rtype;

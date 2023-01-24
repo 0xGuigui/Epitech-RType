@@ -4,7 +4,7 @@ project(r-type LANGUAGES CXX)
 include_directories(includes)
 
 set(SHARED_SRC lib/error.cpp)
-set(SERVER_SRC server/main.cpp)
+set(SERVER_SRC server/main.cpp server/server.cpp server/client.cpp)
 set(CLIENT_SRC client/main.cpp client/keyboard_manager.cpp)
 
 include(FetchContent)
@@ -17,7 +17,7 @@ add_executable(r-type_client ${CLIENT_SRC} ${SHARED_SRC})
 add_executable(r-type_server ${SERVER_SRC} ${SHARED_SRC})
 
 target_link_libraries(r-type_client PRIVATE sfml-graphics)
-target_link_libraries(r-type_server PRIVATE sfml-graphics)
+target_link_libraries(r-type_server PRIVATE sfml-graphics sfml-network)
 
 target_compile_features(r-type_client PRIVATE cxx_std_20)
 target_compile_features(r-type_server PRIVATE cxx_std_20)

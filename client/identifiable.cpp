@@ -5,14 +5,14 @@ Identifiable::Identifiable() {
     _id = World::generateId();
 }
 
-[[maybe_unused]] const std::string &Identifiable::getId() {
+[[nodiscard]] const std::string &Identifiable::getId() const {
     return _id;
 }
 
-bool Identifiable::operator == (const Identifiable &identifiable) {
+bool Identifiable::operator == (const Identifiable &identifiable) const {
     return _id == identifiable._id;
 }
 
-bool Identifiable::operator != (const Identifiable &identifiable) {
+bool Identifiable::operator != (const Identifiable &identifiable) const {
     return _id != identifiable._id;
 }

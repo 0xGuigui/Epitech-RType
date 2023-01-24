@@ -3,6 +3,7 @@
 class World;
 
 class System {
-    virtual void update(World &world, float delta) = 0;
+public:
     virtual ~System() = default;
+    virtual void update(World &world, float delta) = 0;
 };

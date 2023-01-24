@@ -1,5 +1,3 @@
 #include "client/components/component.h"
 
-Component::Component() : Identifiable() {
-
-}
+Component::Component() : Identifiable() {}

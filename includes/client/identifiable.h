@@ -8,11 +8,11 @@ private:
 public:
     Identifiable();
 
-    [[maybe_unused]] const std::string &getId();
+    [[nodiscard]] const std::string &getId() const;
 
-    bool operator == (const Identifiable &identifiable);
+    bool operator == (const Identifiable &identifiable) const;
 
-    bool operator != (const Identifiable &identifiable);
+    bool operator != (const Identifiable &identifiable) const;
 
     virtual ~Identifiable() = default;
 };

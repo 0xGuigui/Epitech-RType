@@ -5,9 +5,7 @@
 #include <vector>
 #include <string>
 #include <optional>
-
-class Component;
-class World;
+#include "client/components/component.h"
 
 class Entity : public Identifiable {
 private:
@@ -18,7 +16,7 @@ public:
     Entity();
 
     template<typename T>
-    [[maybe_unused]] std::optional<T &>getComponent();
+    [[maybe_unused]] std::optional<T &>getComponent() const;
 
     template<typename T, typename... Args>
     [[maybe_unused]] void addComponent(Args&&... args);

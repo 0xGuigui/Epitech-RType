@@ -1,11 +1,30 @@
 #include "client/world.h"
 #include "client/entities/entity.h"
 #include "client/components/component.h"
+#include "SFML/System.hpp"
+#include "client/systems/system.h"
 
 [[maybe_unused]] Entity &World::createEntity() {
     _entities.emplace_back();
 
     return *_entities.back();
+}
+
+void World::removeEntity(const Entity &entity) {
+    for (auto it = _entities.begin(); it != _entities.end(); it++) {
+        if ((*it)->getId() == entity.getId()) {
+            _entities.erase(it);
+            break;
+        }
+    }
+}
+
+void World::update() {
+    const float delta = _timer.getElapsedTime().asSeconds();
+
+    for (std::unique_ptr<System> &system : _systems)
+        system->update(*this, delta);
+    _timer.restart();
 }
 
 [[maybe_unused]] std::string World::generateId() {

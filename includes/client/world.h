@@ -3,20 +3,27 @@
 #include <vector>
 #include <memory>
 #include <string>
-
-class Component;
-class Entity;
+#include "SFML/System.hpp"
+#include "client/entities/entity.h"
+#include "client/systems/system.h"
 
 class World {
 private:
     std::vector<std::unique_ptr<Entity>> _entities;
+    std::vector<std::unique_ptr<System>> _systems;
+    sf::Clock _timer;
 public:
-    [[maybe_unused]] const std::vector<std::unique_ptr<Entity>> &entities = _entities;
+    const std::vector<std::unique_ptr<Entity>> &entities = _entities;
+    const std::vector<std::unique_ptr<System>> &systems = _systems;
 
     World() = default;
     ~World() = default;
 
     [[maybe_unused]] Entity &createEntity();
 
-    [[maybe_unused]] static std::string generateId();
+    void removeEntity(const Entity &entity);
+
+    void update();
+
+    static std::string generateId();
 };

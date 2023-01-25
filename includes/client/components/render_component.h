@@ -1,4 +1,4 @@
-#include "position_component.h"
+#include "component.h"
 #include "SFML/Graphics.hpp"
 
 class RenderComponent : public Component {

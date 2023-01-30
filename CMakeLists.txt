@@ -5,7 +5,7 @@ include_directories(includes)
 
 set(SHARED_SRC lib/error.cpp)
 set(SERVER_SRC server/main.cpp)
-set(CLIENT_SRC client/main.cpp client/keyboard_manager.cpp client/ui/core.cpp)
+set(CLIENT_SRC client/main.cpp client/keyboard_manager.cpp client/ui/core.cpp includes/client/ui/components/loadingBar.cpp includes/client/ui/components/loadingBar.h includes/client/ui/components/button.cpp includes/client/ui/components/button.h includes/client/ui/components/playerLife.cpp includes/client/ui/components/playerLife.h)
 
 include(FetchContent)
 FetchContent_Declare(SFML

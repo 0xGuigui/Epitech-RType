@@ -8,10 +8,10 @@ void RenderSystem::update(World &world, float delta) {
     std::vector<std::shared_ptr<Entity>> entities = world.getEntities<RenderComponent, PositionComponent>();
 
     for (const std::shared_ptr<Entity> &entity : entities) {
-        std::optional<std::shared_ptr<PositionComponent>> position = entity->getComponent<PositionComponent>();
-        std::optional<std::shared_ptr<RenderComponent>> render = entity->getComponent<RenderComponent>();
+        std::shared_ptr<PositionComponent> position = entity->getComponent<PositionComponent>();
+        std::shared_ptr<RenderComponent> render = entity->getComponent<RenderComponent>();
 
-        sf::Sprite &spr = render->get()->getRender();
-        spr.setPosition(position->get()->pos);
+        sf::Sprite &spr = render->getRender();
+        spr.setPosition(position->pos);
     }
 }

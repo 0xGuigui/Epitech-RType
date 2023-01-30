@@ -4,12 +4,12 @@
 Entity::Entity() : Identifiable() {}
 
 template<typename T>
-[[maybe_unused]] std::optional<std::shared_ptr<T>>Entity::getComponent() const {
+[[maybe_unused]] std::shared_ptr<T>Entity::getComponent() const {
     const auto &it = std::find_if(_components.begin(), _components.end(), [](const std::shared_ptr<Component> &c) {
         return dynamic_cast<T>(*c) != nullptr;
     });
 
-    return std::make_optional(it != nullptr ? dynamic_cast<std::shared_ptr<T>>(*it) : std::nullopt);
+    return it != nullptr ? dynamic_cast<std::shared_ptr<T>>(*it) : nullptr;
 }
 
 template<typename T, typename ...Args>

@@ -16,7 +16,7 @@ public:
     Entity();
 
     template<typename T>
-    std::optional<std::shared_ptr<T>>getComponent() const;
+    std::shared_ptr<T>getComponent() const;
 
     template<typename T, typename... Args>
     [[maybe_unused]] void addComponent(Args&&... args);

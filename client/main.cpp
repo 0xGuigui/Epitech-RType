@@ -14,7 +14,12 @@ int main() {
 
     // green box that turn red when clicked
     auto test = StatefulUiComponent<sf::RectangleShape>(shape, [&shape]() {
-        shape.setFillColor(sf::Color::Red);
+        sf::Color currentColor = shape.getFillColor();
+
+        if (currentColor == sf::Color::Red)
+            shape.setFillColor(sf::Color::Green);
+        else
+            shape.setFillColor(sf::Color::Red);
     });
 
     uiSystem.addLayer({&test}, false);

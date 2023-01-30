@@ -3,9 +3,9 @@
 #include "client/identifiable.h"
 #include <string>
 
-class Component : public Identifiable {
+class Component {
 public:
     Component();
 
-    ~Component() override = default;
+    ~Component() = default;
 };

@@ -5,7 +5,7 @@ include_directories(includes)
 
 set(SHARED_SRC lib/error.cpp)
 set(SERVER_SRC server/main.cpp)
-set(CLIENT_SRC client/main.cpp client/keyboard_manager.cpp client/world.cpp client/entities/entity.cpp client/components/component.cpp client/identifiable.cpp client/components/position_component.cpp client/components/render_component.cpp  client/components/rotation_component.cpp client/components/velocity_component.cpp client/components/scale_component.cpp)
+set(CLIENT_SRC client/main.cpp client/keyboard_manager.cpp client/world.cpp client/entities/entity.cpp client/components/component.cpp client/identifiable.cpp client/components/position_component.cpp client/components/render_component.cpp  client/components/rotation_component.cpp client/components/velocity_component.cpp client/components/scale_component.cpp client/systems/movement_system.cpp client/components/hitbox_component.cpp client/systems/render_system.cpp)
 
 include(FetchContent)
 FetchContent_Declare(SFML

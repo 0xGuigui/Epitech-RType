@@ -10,4 +10,6 @@ public:
     explicit RenderComponent(const sf::Texture &texture);
 
     void setTexture(const sf::Texture &texture);
+
+    sf::Sprite &getRender();
 };

@@ -7,3 +7,7 @@ RenderComponent::RenderComponent(const sf::Texture &texture) : Component() {
 void RenderComponent::setTexture(const sf::Texture &texture) {
     _render.setTexture(texture);
 }
+
+sf::Sprite &RenderComponent::getRender() {
+    return _render;
+}

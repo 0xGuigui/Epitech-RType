@@ -4,23 +4,23 @@
 Entity::Entity() : Identifiable() {}
 
 template<typename T>
-[[maybe_unused]] std::optional<T &>Entity::getComponent() const {
-    const auto &it = std::find_if(_components.begin(), _components.end(), [](const std::unique_ptr<Component> &c) {
+[[maybe_unused]] std::optional<std::shared_ptr<T>>Entity::getComponent() const {
+    const auto &it = std::find_if(_components.begin(), _components.end(), [](const std::shared_ptr<Component> &c) {
         return dynamic_cast<T>(*c) != nullptr;
     });
 
-    return std::make_optional(it != nullptr ? dynamic_cast<T>(*it) : std::nullopt);
+    return std::make_optional(it != nullptr ? dynamic_cast<std::shared_ptr<T>>(*it) : std::nullopt);
 }
 
 template<typename T, typename ...Args>
 [[maybe_unused]] void Entity::addComponent(Args &&...args) {
-    const auto &it = std::find_if(_components.begin(), _components.end(), [](const std::unique_ptr<Component> &c) {
+    const auto &it = std::find_if(_components.begin(), _components.end(), [](const std::shared_ptr<Component> &c) {
         return dynamic_cast<T>(*c) != nullptr;
     });
 
     if (it != _components.end())
         removeComponent<T>();
-    _components.emplace_back(std::make_unique<Component>(std::forward<Args>(args)...));
+    _components.emplace_back(std::make_shared<Component>(std::forward<Args>(args)...));
 }
 
 template<typename T>

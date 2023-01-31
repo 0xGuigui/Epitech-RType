@@ -3,6 +3,7 @@
 #include "client/entities/entity.h"
 #include "SFML/Graphics.hpp"
 #include <typeindex>
+#include <functional>
 
 class HitboxComponent : public Component {
 private:

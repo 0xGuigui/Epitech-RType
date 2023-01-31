@@ -4,6 +4,10 @@ PositionComponent::PositionComponent(const float &x, const float &y) : Component
     _pos = {x, y};
 }
 
+PositionComponent::PositionComponent(const sf::Vector2<float> &vector2) {
+    _pos = vector2;
+}
+
 void PositionComponent::setPosition(const float &x, const float &y) {
     _pos = {x, y};
 }

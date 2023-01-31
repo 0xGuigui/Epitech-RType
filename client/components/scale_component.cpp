@@ -4,6 +4,10 @@ ScaleComponent::ScaleComponent(const float &x, const float &y) : Component() {
     _scale = {x, y};
 }
 
+ScaleComponent::ScaleComponent(const sf::Vector2<float> &vector2) {
+    _scale = vector2;
+}
+
 void ScaleComponent::setScale(const float &x, const float &y) {
     _scale = {x, y};
 }

@@ -4,6 +4,10 @@ VelocityComponent::VelocityComponent(const float &x, const float &y) : Component
     _velocity = {x, y};
 }
 
+VelocityComponent::VelocityComponent(const sf::Vector2<float> &vector2) {
+    _velocity = vector2;
+}
+
 void VelocityComponent::setVelocity(const float &x, const float &y) {
     _velocity = {x, y};
 }

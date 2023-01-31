@@ -16,6 +16,7 @@ int main() {
             }
         }
         window.clear();
+        rtype.world.update(window);
         window.display();
     }
 }

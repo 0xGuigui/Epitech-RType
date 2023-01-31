@@ -49,3 +49,6 @@ cmake-build-debug/
 *.exe
 *.out
 *.app
+
+#test binaries
+test.cpp

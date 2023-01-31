@@ -1,10 +1,9 @@
+#include "client/world.h"
 #include "client/systems/render_system.h"
 #include "client/components/render_component.h"
 #include "client/components/position_component.h"
-#include "client/entities/entity.h"
-#include "client/world.h"
 
-void RenderSystem::update(World &world, float delta) {
+void RenderSystem::update(sf::RenderWindow &window, World &world, float delta) {
     std::vector<std::shared_ptr<Entity>> entities = world.getEntities<RenderComponent, PositionComponent>();
 
     for (const std::shared_ptr<Entity> &entity : entities) {
@@ -13,5 +12,8 @@ void RenderSystem::update(World &world, float delta) {
 
         sf::Sprite &spr = render->getRender();
         spr.setPosition(position->pos);
+
+
     }
 }
+

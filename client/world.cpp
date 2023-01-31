@@ -1,7 +1,5 @@
 #include "client/world.h"
-#include "client/entities/entity.h"
 #include "client/components/component.h"
-#include "client/systems/system.h"
 
 [[maybe_unused]] Entity &World::createEntity() {
     _entities.emplace_back();
@@ -18,32 +16,14 @@ void World::removeEntity(const Entity &entity) {
     }
 }
 
-template<typename Component, typename ...Args>
-std::vector<std::shared_ptr<Entity>> World::getEntities() {
-
-    if (std::is_same<Component, ::Component>())
-        return _entities;
-
-    std::vector<std::shared_ptr<Entity>> ent = _entities;
-
-    std::erase_if(ent, [](const std::shared_ptr<Entity> &e) -> bool {
-        return e->getComponent<Component>() == std::nullopt;
-    });
-
-    std::vector<std::shared_ptr<Entity>> result = getEntities<Args...>();
-
-    std::erase_if(result.begin(), result.end(), [&ent](const std::shared_ptr<Entity> &e) -> bool {
-        return std::count(ent.begin(), ent.end(), e) == 0;
-    });
-    return result;
-}
-
-void World::update() {
-    const float delta = _timer.getElapsedTime().asSeconds();
+void World::update(sf::RenderWindow &window) {
+    const float delta = _timer.restart().asSeconds();
 
     for (std::shared_ptr<System> &system : _systems)
-        system->update(*this, delta);
-    _timer.restart();
+        system->update(window, *this, delta);
+    std::erase_if(_entities, [](const std::shared_ptr<Entity> &e) -> bool {
+        return e->isErased();
+    });
 }
 
 [[maybe_unused]] std::string World::generateId() {

@@ -7,7 +7,7 @@ private:
 public:
     const float &rotation = _rotation;
 
-    explicit RotationComponent(const float &rotation = 0);
+    explicit RotationComponent(const float &rota = 0);
 
-    void setRotation(const float &rotation);
+    void setRotation(const float &rota);
 };

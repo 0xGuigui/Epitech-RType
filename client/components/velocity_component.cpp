@@ -1,6 +1,6 @@
 #include "client/components/velocity_component.h"
 
-VelocityComponent::VelocityComponent(const float &x, const float &y) : Component() {
+VelocityComponent::VelocityComponent(const float &x, const float &y) {
     _velocity = {x, y};
 }
 

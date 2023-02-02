@@ -9,7 +9,6 @@ set(CLIENT_SRC client/main.cpp
         client/keyboard_manager.cpp
         client/world.cpp
         client/entities/entity.cpp
-        client/components/component.cpp
         client/identifiable.cpp
         client/components/position_component.cpp
         client/components/render_component.cpp

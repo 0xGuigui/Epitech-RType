@@ -1,6 +1,6 @@
 #include "client/components/scale_component.h"
 
-ScaleComponent::ScaleComponent(const float &x, const float &y) : Component() {
+ScaleComponent::ScaleComponent(const float &x, const float &y) {
     _scale = {x, y};
 }
 

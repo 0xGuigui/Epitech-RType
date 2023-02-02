@@ -1,6 +1,6 @@
 #include "client/components/position_component.h"
 
-PositionComponent::PositionComponent(const float &x, const float &y) : Component() {
+PositionComponent::PositionComponent(const float &x, const float &y) {
     _pos = {x, y};
 }
 

@@ -1,6 +1,6 @@
 #include "client/components/render_component.h"
 
-RenderComponent::RenderComponent(const sf::Texture &texture) : Component() {
+RenderComponent::RenderComponent(const sf::Texture &texture) {
     _render.setTexture(texture);
 }
 

@@ -33,7 +33,13 @@ void World::update(sf::RenderWindow &window) {
     if (id_giver.back() == '9') {
         id_giver.back() = '0';
         id_giver.push_back('0');
-    } else
-        id_giver.back()++;
+    } else {
+        for (char &c : id_giver) {
+            if (c != '9') {
+                c++;
+                break;
+            }
+        }
+    }
     return id;
 }

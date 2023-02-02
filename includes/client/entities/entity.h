@@ -19,8 +19,8 @@ public:
     template<typename T>
     std::shared_ptr<T> getComponent() const {
         const auto &it = std::find_if(_components.begin(), _components.end(), [](const std::shared_ptr<Component> &c) -> bool {
-            // There isn't a bool operator for this so the double ! is required or it will not compile
-            return !(!std::static_pointer_cast<T>(c));
+            // .operator bool() required or it will not compile
+            return std::static_pointer_cast<T>(c).operator bool();
         });
 
         return it != std::end(_components) ? std::static_pointer_cast<T>(*it) : std::shared_ptr<T>();

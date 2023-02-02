@@ -19,7 +19,9 @@ set(CLIENT_SRC client/main.cpp
         client/systems/movement_system.cpp
         client/components/hitbox_component.cpp
         client/systems/render_system.cpp
-        client/systems/hitbox_system.cpp)
+        client/systems/hitbox_system.cpp
+        client/components/health_component.cpp
+        client/systems/health_system.cpp)
 
 include(FetchContent)
 FetchContent_Declare(SFML

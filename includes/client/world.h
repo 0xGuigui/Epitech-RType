@@ -7,18 +7,28 @@
 #include <algorithm>
 #include "SFML/System.hpp"
 #include "client/entities/entity.h"
-#include "client/systems/system.h"
+#include "client/systems/systems.h"
 
 class World {
 private:
     std::vector<std::shared_ptr<Entity>> _entities;
-    std::vector<std::shared_ptr<System>> _systems;
+    std::vector<std::shared_ptr<System>> _systems = {
+            std::make_shared<HealthSystem>(),
+            std::make_shared<HitboxSystem>(),
+            std::make_shared<MovementSystem>(),
+            std::make_shared<RenderSystem>()
+    };
     sf::Clock _timer;
 public:
     World() = default;
     ~World() = default;
 
-    [[maybe_unused]] Entity &createEntity();
+    template<typename Entity = ::Entity, typename... Args>
+    std::shared_ptr<Entity> createEntity(Args&& ...args) {
+        _entities.emplace_back(std::make_shared<Entity>(std::forward<Args>(args)...));
+
+        return std::static_pointer_cast<Entity>(_entities.back());
+    };
 
     void removeEntity(const Entity &entity);
 

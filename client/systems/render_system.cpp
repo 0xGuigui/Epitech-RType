@@ -3,6 +3,7 @@
 #include "client/components/render_component.h"
 #include "client/components/position_component.h"
 #include "client/components/scale_component.h"
+#include <iostream>
 
 void RenderSystem::update(sf::RenderWindow &window, World &world, float delta) {
     std::vector<std::shared_ptr<Entity>> entities = world.getEntities<RenderComponent, PositionComponent>();
@@ -16,6 +17,8 @@ void RenderSystem::update(sf::RenderWindow &window, World &world, float delta) {
         if (scale)
             spr.setScale(scale->scale);
         spr.setPosition(position->pos);
+
+        window.draw(spr);
     }
 }
 

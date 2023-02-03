@@ -16,4 +16,6 @@ public:
     void setVelocity(const float &x = 0, const float &y = 0);
 
     void setVelocity(sf::Vector2<float> &v);
+
+    void cast() const override {};
 };

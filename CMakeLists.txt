@@ -3,7 +3,7 @@ project(r-type LANGUAGES CXX)
 
 include_directories(includes)
 
-set(SHARED_SRC lib/error.cpp)
+set(SHARED_SRC lib/error.cpp lib/random.cpp)
 set(SERVER_SRC server/main.cpp)
 set(CLIENT_SRC client/main.cpp
         client/keyboard_manager.cpp
@@ -20,7 +20,7 @@ set(CLIENT_SRC client/main.cpp
         client/systems/render_system.cpp
         client/systems/hitbox_system.cpp
         client/components/health_component.cpp
-        client/systems/health_system.cpp)
+        client/systems/health_system.cpp client/entities/player.cpp client/entities/projectile.cpp)
 
 include(FetchContent)
 FetchContent_Declare(SFML

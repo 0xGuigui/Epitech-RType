@@ -10,4 +10,6 @@ public:
     explicit RotationComponent(const float &rota = 0);
 
     void setRotation(const float &rota);
+
+    void cast() const override {};
 };

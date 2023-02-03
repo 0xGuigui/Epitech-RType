@@ -1,12 +1,6 @@
 #include "client/world.h"
 #include "client/components/component.h"
 
-[[maybe_unused]] Entity &World::createEntity() {
-    _entities.emplace_back();
-
-    return *_entities.back();
-}
-
 void World::removeEntity(const Entity &entity) {
     for (auto it = _entities.begin(); it != _entities.end(); it++) {
         if ((*it)->getId() == entity.getId()) {

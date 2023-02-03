@@ -1,12 +1,19 @@
 #include "SFML/Graphics.hpp"
 #include "client/rtype.h"
+#include "client/entities/player.h"
 
+// Clion run version
+//RType rtype("../resources");
+// Terminal run version
 // init global instance of RType
 RType rtype("resources");
 
-int main() {
-    sf::RenderWindow window(sf::VideoMode({200, 200}), "SFML works!");
+#include "client/components/render_component.h"
 
+int main() {
+    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "SFML works!");
+
+//    std::shared_ptr<Player> player = rtype.world.createEntity<Player>();
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {

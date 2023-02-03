@@ -5,4 +5,6 @@
 class HitboxSystem : public System {
 public:
     void update(sf::RenderWindow &window, World &world, float delta) override;
+
+    void cast() const override {};
 };

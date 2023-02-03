@@ -4,5 +4,7 @@
 
 class HealthSystem : public System {
 public:
-    void update(sf::RenderWindow &window, World &world, float delta);
+    void update(sf::RenderWindow &window, World &world, float delta) override;
+
+    void cast() const override {};
 };

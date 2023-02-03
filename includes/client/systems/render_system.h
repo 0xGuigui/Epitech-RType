@@ -5,4 +5,6 @@
 
 class RenderSystem : public System {
     void update(sf::RenderWindow &window, World &world, float delta) override;
+
+    void cast() const override {};
 };

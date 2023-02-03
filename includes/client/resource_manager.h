@@ -57,7 +57,7 @@ public:
         resources[name] = resource;
     }
 
-    T &get(const std::string &name) const {
+    T &get(const std::string &name) {
         return resources.at(name);
     }
 

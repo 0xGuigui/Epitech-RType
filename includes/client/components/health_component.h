@@ -1,6 +1,7 @@
 #pragma once
 
 #include "client/components/component.h"
+#include <functional>
 
 class HealthComponent : public Component {
 private:

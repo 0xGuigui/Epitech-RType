@@ -11,7 +11,7 @@ RType rtype("resources");
 #include "client/components/render_component.h"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "R-Type
 
 //    std::shared_ptr<Player> player = rtype.world.createEntity<Player>();
     while (window.isOpen()) {

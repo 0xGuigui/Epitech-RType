@@ -20,7 +20,7 @@ set(CLIENT_SRC client/main.cpp
         client/systems/render_system.cpp
         client/systems/hitbox_system.cpp
         client/components/health_component.cpp
-        client/systems/health_system.cpp client/entities/player.cpp client/entities/projectile.cpp)
+        client/systems/health_system.cpp client/entities/player.cpp client/entities/projectile.cpp client/entities/monsters.cpp)
 
 include(FetchContent)
 FetchContent_Declare(SFML

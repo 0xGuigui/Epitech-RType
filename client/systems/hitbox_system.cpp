@@ -30,7 +30,7 @@ void HitboxSystem::update(sf::RenderWindow &window, World &world, float delta) {
                 for (const std::type_index index : hitboxComponent->getCollidables()) {
                     Entity &type = *entities[j].get();
                     if (index == typeid(type) || index == typeid(Entity)) {
-                        hitboxComponent->onCollide(entities[j]);
+                        hitboxComponent->onCollide(entities[j], index);
                         break;
                     }
                 }
@@ -38,7 +38,7 @@ void HitboxSystem::update(sf::RenderWindow &window, World &world, float delta) {
                 for (const std::type_index index : hitboxComponent2->getCollidables()) {
                     Entity &type = *entities[i].get();
                     if (index == typeid(type) || index == typeid(Entity)) {
-                        hitboxComponent2->onCollide(entities[i]);
+                        hitboxComponent2->onCollide(entities[i], index);
                         break;
                     }
                 }

@@ -25,7 +25,7 @@ Monster::Monster(monsterType monsterType) : Entity() {
     addComponent<RenderComponent>(spr);
     addComponent<ScaleComponent>(5, 5);
 
-    HitboxComponent hitboxComponent(spr, [this](std::shared_ptr<Entity> &e) {
+    HitboxComponent hitboxComponent(spr, [this](std::shared_ptr<Entity> &e, const std::type_index &type) {
         std::shared_ptr<HealthComponent> healthComponent = e->getComponent<HealthComponent>();
 
         if (healthComponent) {

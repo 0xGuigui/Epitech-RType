@@ -8,7 +8,7 @@
 class HitboxComponent : public Component {
 private:
     sf::FloatRect _hitbox;
-    std::function<void(std::shared_ptr<Entity> &)> _onCollide;
+    std::function<void(std::shared_ptr<Entity> &, const std::type_index &)> _onCollide;
     std::vector<std::type_index> _collidableWith;
 
     template<typename Entity = ::Entity, typename... Args>
@@ -24,9 +24,9 @@ private:
 public:
     HitboxComponent() = default;
 
-    HitboxComponent(const sf::FloatRect &hb, std::function<void(std::shared_ptr<Entity> &)> function);
+    HitboxComponent(const sf::FloatRect &hb, std::function<void(std::shared_ptr<Entity> &, const std::type_index &)> function);
 
-    HitboxComponent(const sf::Sprite &sprite, std::function<void(std::shared_ptr<Entity> &)> function);
+    HitboxComponent(const sf::Sprite &sprite, std::function<void(std::shared_ptr<Entity> &, const std::type_index &)> function);
 
     template<typename... Args>
     void setCollidables() {
@@ -40,11 +40,11 @@ public:
 
     sf::FloatRect &getHitbox();
 
-    void setOnCollide(std::function<void(std::shared_ptr<Entity> &)> &collideFunction);
+    void setOnCollide(std::function<void(std::shared_ptr<Entity> &, const std::type_index &)> &collideFunction);
 
     std::vector<std::type_index> &getCollidables();
 
-    void onCollide(std::shared_ptr<Entity> &entity);
+    void onCollide(std::shared_ptr<Entity> &entity, const std::type_index &index);
 
     void cast() const override {};
 };

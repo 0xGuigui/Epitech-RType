@@ -1,12 +1,12 @@
 #include "client/components/hitbox_component.h"
 #include <utility>
 
-HitboxComponent::HitboxComponent(const sf::FloatRect &hb, std::function<void(std::shared_ptr<Entity> &)> function) {
+HitboxComponent::HitboxComponent(const sf::FloatRect &hb, std::function<void(std::shared_ptr<Entity> &, const std::type_index &)> function) {
     _hitbox = hb;
     _onCollide = std::move(function);
 }
 
-HitboxComponent::HitboxComponent(const sf::Sprite &sprite, std::function<void(std::shared_ptr<Entity> &)> function) {
+HitboxComponent::HitboxComponent(const sf::Sprite &sprite, std::function<void(std::shared_ptr<Entity> &, const std::type_index &)> function) {
     _hitbox = sprite.getGlobalBounds();
     _onCollide = std::move(function);
 }
@@ -23,7 +23,7 @@ sf::FloatRect &HitboxComponent::getHitbox() {
     return _hitbox;
 }
 
-void HitboxComponent::setOnCollide(std::function<void(std::shared_ptr<Entity> &)> &collideFunction) {
+void HitboxComponent::setOnCollide(std::function<void(std::shared_ptr<Entity> &, const std::type_index &)> &collideFunction) {
     _onCollide = collideFunction;
 }
 
@@ -31,6 +31,6 @@ std::vector<std::type_index> &HitboxComponent::getCollidables() {
     return _collidableWith;
 }
 
-void HitboxComponent::onCollide(std::shared_ptr<Entity> &entity) {
-    _onCollide(entity);
+void HitboxComponent::onCollide(std::shared_ptr<Entity> &entity, const std::type_index &index) {
+    _onCollide(entity, index);
 }

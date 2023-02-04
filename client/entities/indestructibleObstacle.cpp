@@ -8,7 +8,7 @@ IndestructibleObstacle::IndestructibleObstacle() : Entity() {
     spr.setTextureRect({167, 3, 32, 13});
 
     addComponent<PositionComponent>(0, 0);
-    addComponent<HealthComponent>(1);
+    addComponent<HealthComponent>(0);
     addComponent<RenderComponent>(spr);
 
     HitboxComponent hitboxComponent(spr, [this](std::shared_ptr<Entity> &e, const std::type_index &type) {

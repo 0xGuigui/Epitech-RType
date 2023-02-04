@@ -2,6 +2,7 @@
 #include "client/rtype.h"
 #include "client/entities/entities.h"
 #include "client/components/components.h"
+#include "client/entities/powerup.h"
 
 // Clion run version
 //RType rtype("../resources");
@@ -10,7 +11,7 @@
 RType rtype("resources");
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "R-Type");
     window.setFramerateLimit(60);
 
 //    std::shared_ptr<Player> player = rtype.world.createEntity<Player>();
@@ -18,6 +19,7 @@ int main() {
 //    std::shared_ptr<Projectile> projectile2 = rtype.world.createEntity<Projectile>();
 //    projectile2->getComponent<VelocityComponent>()->setVelocity(-100, 0);
 //    projectile2->getComponent<PositionComponent>()->setPosition(500, 500);
+//      std::shared_ptr<PowerUp> powerUp = rtype.world.createEntity<PowerUp>();
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {

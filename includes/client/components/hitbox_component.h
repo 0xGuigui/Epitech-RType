@@ -22,10 +22,6 @@ private:
         _setCollidables<Args...>();
     };
 public:
-    const sf::FloatRect &hitbox = _hitbox;
-    const std::function<void(std::shared_ptr<Entity> &)> &onCollide = _onCollide;
-    const std::vector<std::type_index> &collidableWith = _collidableWith;
-
     HitboxComponent() = default;
 
     HitboxComponent(const sf::FloatRect &hb, std::function<void(std::shared_ptr<Entity> &)> function);
@@ -42,7 +38,13 @@ public:
 
     void setHitbox(const sf::Sprite &sprite);
 
+    sf::FloatRect &getHitbox();
+
     void setOnCollide(std::function<void(std::shared_ptr<Entity> &)> &collideFunction);
+
+    std::vector<std::type_index> &getCollidables();
+
+    void onCollide(std::shared_ptr<Entity> &entity);
 
     void cast() const override {};
 };

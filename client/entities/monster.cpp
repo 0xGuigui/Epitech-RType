@@ -1,8 +1,4 @@
-//
-// Created by Guilhem Jéhanno on 03/02/2023.
-//
-
-#include "client/entities/monsters.h"
+#include "client/entities/entities.h"
 #include "client/components/components.h"
 #include "client/rtype.h"
 
@@ -20,7 +16,7 @@ static const std::string monsterSpritePath[] = {
         "r-typesheet8",
 };
 
-Monsters::Monsters( monstersType monsterType) : Entity() {
+Monster::Monster(monsterType monsterType) : Entity() {
     sf::Sprite spr(rtype.textures.get(monsterSpritePath[monsterType]));
     spr.setTextureRect(monsterTypeSprite[monsterType]);
 
@@ -38,5 +34,6 @@ Monsters::Monsters( monstersType monsterType) : Entity() {
             thisHealth->setHealth(thisHealth->health - healthComponent->damage);
         }
     });
+    hitboxComponent.setCollidables<Projectile, Player>();
     addComponent<HitboxComponent>(hitboxComponent);
 }

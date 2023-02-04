@@ -1,4 +1,4 @@
-#include "client/entities/player.h"
+#include "client/entities/entities.h"
 #include "client/components/components.h"
 #include "client/rtype.h"
 
@@ -27,6 +27,7 @@ Player::Player(PlayerColor playerColor) : Entity() {
             thisHealth->setHealth(thisHealth->health - healthComponent->damage);
         }
     });
+    hitboxComponent.setCollidables<Projectile>();
     addComponent<HitboxComponent>(hitboxComponent);
 }
 

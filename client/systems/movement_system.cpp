@@ -11,8 +11,8 @@ void MovementSystem::update(sf::RenderWindow &window, World &world, float delta)
         std::shared_ptr<VelocityComponent> velocity = entity->getComponent<VelocityComponent>();
 
         position->setPosition(
-                position->pos.x + (position->pos.x * velocity->velocity.x),
-                position->pos.y + (position->pos.y *velocity->velocity.y)
+                position->getPosition().x + (velocity->getVelocity().x * delta),
+                position->getPosition().y + (velocity->getVelocity().y * delta)
                 );
     }
 }

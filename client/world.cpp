@@ -21,19 +21,9 @@ void World::update(sf::RenderWindow &window) {
 }
 
 [[maybe_unused]] std::string World::generateId() {
-    static std::string id_giver = "0";
-    std::string id = id_giver;
+    static int id_giver = 0;
+    std::string id = std::to_string(id_giver);
 
-    if (id_giver.back() == '9') {
-        id_giver.back() = '0';
-        id_giver.push_back('0');
-    } else {
-        for (char &c : id_giver) {
-            if (c != '9') {
-                c++;
-                break;
-            }
-        }
-    }
+    id_giver++;
     return id;
 }

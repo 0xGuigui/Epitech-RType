@@ -1,6 +1,7 @@
 #include "SFML/Graphics.hpp"
 #include "client/rtype.h"
-#include "client/entities/player.h"
+#include "client/entities/entities.h"
+#include "client/components/components.h"
 
 // Clion run version
 //RType rtype("../resources");
@@ -8,12 +9,15 @@
 // init global instance of RType
 RType rtype("resources");
 
-#include "client/components/render_component.h"
-
 int main() {
-    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "R-Type
+    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "SFML works!");
+    window.setFramerateLimit(60);
 
 //    std::shared_ptr<Player> player = rtype.world.createEntity<Player>();
+//    std::shared_ptr<Projectile> projectile = rtype.world.createEntity<Projectile>();
+//    std::shared_ptr<Projectile> projectile2 = rtype.world.createEntity<Projectile>();
+//    projectile2->getComponent<VelocityComponent>()->setVelocity(-100, 0);
+//    projectile2->getComponent<PositionComponent>()->setPosition(500, 500);
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {

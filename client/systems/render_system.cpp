@@ -15,8 +15,8 @@ void RenderSystem::update(sf::RenderWindow &window, World &world, float delta) {
 
         sf::Sprite &spr = render->getRender();
         if (scale)
-            spr.setScale(scale->scale);
-        spr.setPosition(position->pos);
+            spr.setScale(scale->getScale());
+        spr.setPosition(position->getPosition());
 
         window.draw(spr);
     }

@@ -16,3 +16,7 @@ void HealthComponent::setHealth(const float &hp) {
 void HealthComponent::setOnDeath(std::function<void()> &function) {
     _onDeath = function;
 }
+
+void HealthComponent::onDeath() {
+    _onDeath();
+}

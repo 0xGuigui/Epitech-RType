@@ -19,6 +19,18 @@ void HitboxComponent::setHitbox(const sf::Sprite &sprite) {
     _hitbox = sprite.getGlobalBounds();
 }
 
+sf::FloatRect &HitboxComponent::getHitbox() {
+    return _hitbox;
+}
+
 void HitboxComponent::setOnCollide(std::function<void(std::shared_ptr<Entity> &)> &collideFunction) {
     _onCollide = collideFunction;
+}
+
+std::vector<std::type_index> &HitboxComponent::getCollidables() {
+    return _collidableWith;
+}
+
+void HitboxComponent::onCollide(std::shared_ptr<Entity> &entity) {
+    _onCollide(entity);
 }

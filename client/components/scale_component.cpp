@@ -15,3 +15,7 @@ void ScaleComponent::setScale(const float &x, const float &y) {
 void ScaleComponent::setScale(sf::Vector2<float> &s) {
     _scale = s;
 }
+
+sf::Vector2<float> ScaleComponent::getScale() {
+    return _scale;
+}

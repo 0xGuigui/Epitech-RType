@@ -15,3 +15,7 @@ void PositionComponent::setPosition(const float &x, const float &y) {
 void PositionComponent::setPosition(sf::Vector2<float> &position) {
     _pos = position;
 }
+
+sf::Vector2<float> &PositionComponent::getPosition() {
+    return _pos;
+}

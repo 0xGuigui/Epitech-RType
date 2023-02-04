@@ -6,7 +6,9 @@ class Projectile : public Entity {
 private:
     std::shared_ptr<Entity> _theCreator;
 public:
-    Projectile(const std::shared_ptr<Entity>& creator = nullptr);
+    explicit Projectile(const std::shared_ptr<Entity>& creator = nullptr);
+
+    void setCreator(const std::shared_ptr<Entity> &creator);
 
     std::shared_ptr<Entity> getCreator();
 

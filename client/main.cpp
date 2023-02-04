@@ -5,21 +5,17 @@
 #include "client/entities/powerup.h"
 
 // Clion run version
-//RType rtype("../resources");
+RType rtype("../resources");
 // Terminal run version
 // init global instance of RType
-RType rtype("resources");
+//RType rtype("resources");
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({1920, 1080}), "R-Type");
     window.setFramerateLimit(60);
+    window.setKeyRepeatEnabled(false);
 
-//    std::shared_ptr<Player> player = rtype.world.createEntity<Player>();
-//    std::shared_ptr<Projectile> projectile = rtype.world.createEntity<Projectile>();
-//    std::shared_ptr<Projectile> projectile2 = rtype.world.createEntity<Projectile>();
-//    projectile2->getComponent<VelocityComponent>()->setVelocity(-100, 0);
-//    projectile2->getComponent<PositionComponent>()->setPosition(500, 500);
-//      std::shared_ptr<PowerUp> powerUp = rtype.world.createEntity<PowerUp>();
+    createMainPlayer();
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {

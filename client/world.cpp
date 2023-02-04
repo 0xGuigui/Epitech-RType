@@ -13,8 +13,11 @@ void World::removeEntity(const Entity &entity) {
 void World::update(sf::RenderWindow &window) {
     const float delta = _timer.restart().asSeconds();
 
-    for (std::shared_ptr<System> &system : _systems)
-        system->update(window, *this, delta);
+    for (std::shared_ptr<System> &system : _systems) {
+        System &type = *system;
+        if (system->isEnabled() || typeid(type) != typeid(RenderSystem))
+            system->update(window, *this, delta);
+    }
     std::erase_if(_entities, [](const std::shared_ptr<Entity> &e) -> bool {
         return e->isErased();
     });

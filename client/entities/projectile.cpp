@@ -16,6 +16,13 @@ Projectile::Projectile(const std::shared_ptr<Entity>& creator) : Entity() {
     addComponent<VelocityComponent>(100, 0);
 
     HitboxComponent hitboxComponent(spr, [this](std::shared_ptr<Entity> &e, const std::type_index &type) {
+        if (_theCreator) {
+            Entity &creatorType = *_theCreator;
+
+            if (type == typeid(creatorType))
+                return;
+        }
+
         std::shared_ptr<HealthComponent> healthComponent = this->getComponent<HealthComponent>();
 
         if (healthComponent)
@@ -28,4 +35,8 @@ Projectile::Projectile(const std::shared_ptr<Entity>& creator) : Entity() {
 
 std::shared_ptr<Entity> Projectile::getCreator() {
     return _theCreator;
+}
+
+void Projectile::setCreator(const std::shared_ptr<Entity> &creator) {
+    _theCreator = creator;
 }

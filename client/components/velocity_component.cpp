@@ -12,7 +12,7 @@ void VelocityComponent::setVelocity(const float &x, const float &y) {
     _velocity = {x, y};
 }
 
-void VelocityComponent::setVelocity(sf::Vector2<float> &v) {
+void VelocityComponent::setVelocity(const sf::Vector2<float> &v) {
     _velocity = v;
 }
 

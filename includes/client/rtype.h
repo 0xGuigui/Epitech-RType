@@ -24,4 +24,6 @@ struct RType {
     World world;
 };
 
+void createMainPlayer();
+
 extern RType rtype;

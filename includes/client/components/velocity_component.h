@@ -11,9 +11,9 @@ public:
 
     explicit VelocityComponent(const sf::Vector2<float> &vector2);
 
-    void setVelocity(const float &x = 0, const float &y = 0);
+    void setVelocity(const float &x, const float &y);
 
-    void setVelocity(sf::Vector2<float> &v);
+    void setVelocity(const sf::Vector2<float> &v);
 
     sf::Vector2<float> getVelocity();
 

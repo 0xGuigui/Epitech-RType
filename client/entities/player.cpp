@@ -16,6 +16,7 @@ Player::Player(PlayerColor playerColor) : Entity() {
 
     addComponent<PositionComponent>(500, 500);
     addComponent<HealthComponent>(100, 0);
+    addComponent<VelocityComponent>(0, 0);
     addComponent<RenderComponent>(spr);
 
     HitboxComponent hitboxComponent(spr, [this](std::shared_ptr<Entity> &e, const std::type_index &type) {

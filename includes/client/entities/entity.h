@@ -13,8 +13,6 @@ private:
     std::vector<std::shared_ptr<Component>> _components;
     bool _cleanup = false;
 public:
-    const std::vector<std::shared_ptr<Component>> &components = _components;
-
     Entity();
 
     template<typename T>
@@ -24,6 +22,10 @@ public:
         });
 
         return it != _components.end() ? std::static_pointer_cast<T>(*it) : std::shared_ptr<T>();
+    };
+
+    [[nodiscard]] std::vector<std::shared_ptr<Component>> getComponents() const {
+        return _components;
     };
 
     template<typename T, typename... Args>

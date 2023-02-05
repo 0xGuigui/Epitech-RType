@@ -41,7 +41,7 @@ void Server::run() {
 
                         std::cout << "Waiting for packet from client " << client->getId() << std::endl;
                         if (std::get<0>(sockets)->receive(packet) == sf::Socket::Done) {
-                            // deserialize packet and process command
+                            handleTcpCommand(packet, client);
                         } else {
                             selector.remove(*std::get<0>(sockets));
                             std::cout << "Client " << client->getId() << " disconnected" << std::endl;

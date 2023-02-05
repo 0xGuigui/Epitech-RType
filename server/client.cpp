@@ -8,6 +8,8 @@ Client::Client() {
     Server::nextClientId++;
     this->_tcpSocket = std::make_unique<sf::TcpSocket>();
     this->_udpSocket = std::make_unique<sf::UdpSocket>();
+    this->_tcpSocket->setBlocking(false);
+    this->_udpSocket->setBlocking(false);
 }
 
 ClientSockets Client::getSockets() {
@@ -16,4 +18,24 @@ ClientSockets Client::getSockets() {
 
 int Client::getId() const {
     return _id;
+}
+
+void Client::sendTcpPacket(sf::Packet &packet) {
+    this->_tcpSocket->send(packet);
+}
+
+void Client::setName(const std::string &name) {
+    _name = name;
+}
+
+const std::string &Client::getName() const {
+    return _name;
+}
+
+void Client::setGame(Game *game) {
+    _game = game;
+}
+
+Game *Client::getGame() const {
+    return _game;
 }

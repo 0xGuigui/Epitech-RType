@@ -1,7 +1,9 @@
 #include "client/entities/entity.h"
-#include "client/components/component.h"
+#include "client/components/scale_component.h"
 
-Entity::Entity() : Identifiable() {}
+Entity::Entity() : Identifiable() {
+    addComponent<ScaleComponent>();
+}
 
 void Entity::eraseSelf() {
     _cleanup = true;

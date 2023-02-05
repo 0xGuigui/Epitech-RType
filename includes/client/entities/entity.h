@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <optional>
+#include <type_traits>
 #include "client/components/component.h"
 
 class Entity : public Identifiable {
@@ -15,13 +16,18 @@ private:
 public:
     Entity();
 
-    template<typename T>
+    template<typename T, typename std::enable_if<std::is_base_of<Component, T>::value, int>::type = 0>
     std::shared_ptr<T> getComponent() const {
         const auto &it = std::find_if(_components.begin(), _components.end(), [](const std::shared_ptr<Component> &c) -> bool {
             return dynamic_cast<T *>(c.get());
         });
 
         return it != _components.end() ? std::static_pointer_cast<T>(*it) : std::shared_ptr<T>();
+    };
+
+    template<typename T, typename std::enable_if<!std::is_base_of<Component, T>::value, int>::type = 0>
+    std::shared_ptr<T> getComponent() const {
+        return std::shared_ptr<T>();
     };
 
     [[nodiscard]] std::vector<std::shared_ptr<Component>> getComponents() const {

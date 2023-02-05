@@ -3,6 +3,7 @@
 #include "client/entities/entities.h"
 #include "client/components/components.h"
 #include "client/entities/powerup.h"
+#include "client/utils/background.h"
 
 // Clion run version
 RType rtype("../resources");
@@ -15,6 +16,9 @@ int main() {
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 
+    std::shared_ptr<Background> background = rtype.world.createEntity<Background>(window);
+    std::shared_ptr<Background> background2 = rtype.world.createEntity<Background>(window);
+    background2->getComponent<PositionComponent>()->setPosition(static_cast<float>(window.getSize().x), 0);
     createMainPlayer();
     while (window.isOpen()) {
         sf::Event event{};
@@ -25,6 +29,12 @@ int main() {
             }
         }
         window.clear();
+        for (const std::shared_ptr<Entity>& bg_ptr : rtype.world.getEntities<Background>()) {
+            std::shared_ptr<PositionComponent> component = bg_ptr->getComponent<PositionComponent>();
+
+            if (component->getPosition().x <= -static_cast<float>(window.getSize().x))
+                component->setPosition(static_cast<float>(window.getSize().x), 0);
+        }
         rtype.world.update(window);
         window.display();
     }

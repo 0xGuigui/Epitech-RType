@@ -14,8 +14,12 @@ void RenderSystem::update(sf::RenderWindow &window, World &world, float delta) {
         std::shared_ptr<ScaleComponent> scale = entity->getComponent<ScaleComponent>();
 
         sf::Sprite &spr = render->getRender();
-        if (scale)
+        if (scale) {
+            //tried implementing an auto resizer
+//            const sf::Vector2<float> dimensions = static_cast<sf::Vector2<float>>(spr.getTexture()->getSize());
+//            spr.setScale((static_cast<float>(window.getSize().x) / dimensions.x) * scale->getScale().x, (static_cast<float>(window.getSize().y) / dimensions.y) * scale->getScale().y);
             spr.setScale(scale->getScale());
+        }
         spr.setPosition(position->getPosition());
 
         window.draw(spr);

@@ -41,7 +41,9 @@ public:
         std::vector<std::shared_ptr<Entity>> ent = _entities;
 
         std::erase_if(ent, [](const std::shared_ptr<Entity> &e) -> bool {
-            return e->getComponent<Type>() == nullptr && !dynamic_cast<Type *>(e.get());
+            if (std::is_base_of<::Component, Type>())
+                return e->getComponent<Type>() == nullptr;
+            return !dynamic_cast<Type *>(e.get());
         });
 
         std::vector<std::shared_ptr<Entity>> result = getEntities<Args...>();

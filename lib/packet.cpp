@@ -6,6 +6,7 @@ sf::Packet &operator<<(sf::Packet &packet, const TcpRequest &request) {
 
 sf::Packet &operator>>(sf::Packet &packet, TcpRequest &request) {
     sf::Uint8 requestValue;
+
     if (packet >> requestValue)
         request = static_cast<TcpRequest>(requestValue);
     return packet;
@@ -17,6 +18,7 @@ sf::Packet &operator<<(sf::Packet &packet, const TcpResponse &response) {
 
 sf::Packet &operator>>(sf::Packet &packet, TcpResponse &response) {
     sf::Uint8 responseValue;
+
     if (packet >> responseValue)
         response = static_cast<TcpResponse>(responseValue);
     return packet;
@@ -27,5 +29,48 @@ sf::Packet createResponse(TcpResponse response, const std::string &message) {
 
     packet << response;
     packet << message;
+    return packet;
+}
+
+sf::Packet &operator<<(sf::Packet &packet, const GameStatus &status) {
+    return packet << static_cast<sf::Uint8>(status);
+}
+
+sf::Packet &operator>>(sf::Packet &packet, GameStatus &status) {
+    sf::Uint8 statusValue;
+
+    if (packet >> statusValue)
+        status = static_cast<GameStatus>(statusValue);
+    return packet;
+}
+
+sf::Packet& operator << (sf::Packet& packet, const PlayerInfo& playerInfo) {
+    return packet << playerInfo.id << playerInfo.name << playerInfo.ip.toString();
+}
+
+sf::Packet& operator >> (sf::Packet& packet, PlayerInfo& playerInfo) {
+    std::string ipAddress;
+
+    packet >> playerInfo.id >> playerInfo.name >> ipAddress;
+    playerInfo.ip = ipAddress;
+    return packet;
+}
+
+sf::Packet& operator << (sf::Packet& packet, const GameInfo& gameInfo) {
+    packet << gameInfo.name << gameInfo.status << static_cast<sf::Uint32>(gameInfo.players.size());
+    for (const auto& player : gameInfo.players) {
+        packet << player;
+    }
+    return packet;
+}
+
+sf::Packet& operator >> (sf::Packet& packet, GameInfo& gameInfo) {
+    sf::Uint32 playerCount;
+
+    packet >> gameInfo.name >> gameInfo.status >> playerCount;
+    gameInfo.players.resize(playerCount);
+    for (auto& player : gameInfo.players) {
+        packet >> player;
+    }
     return packet;
 }

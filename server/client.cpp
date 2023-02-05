@@ -7,13 +7,11 @@ Client::Client() {
     }
     Server::nextClientId++;
     this->_tcpSocket = std::make_unique<sf::TcpSocket>();
-    this->_udpSocket = std::make_unique<sf::UdpSocket>();
     this->_tcpSocket->setBlocking(false);
-    this->_udpSocket->setBlocking(false);
 }
 
-ClientSockets Client::getSockets() {
-    return std::make_tuple(this->_tcpSocket.get(), this->_udpSocket.get());
+sf::TcpSocket *Client::getSocket() {
+    return this->_tcpSocket.get();
 }
 
 int Client::getId() const {

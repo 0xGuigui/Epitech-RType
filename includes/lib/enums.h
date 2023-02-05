@@ -13,6 +13,7 @@ enum TcpRequest {
 enum TcpResponse {
     RES_ERROR,
     RES_OK,
+    RES_LIST_GAMES,
 };
 
 enum GameStatus {

@@ -7,10 +7,11 @@
 #include <climits>
 #include <optional>
 #include "lib/packet.h"
+#include "lib/structs.h"
 
 #define MAX_GAME_PLAYERS 4
 
-typedef std::tuple<sf::TcpSocket *, sf::UdpSocket *> ClientSockets;
+typedef std::optional<const char *> optError;
 
 // Forward declaration of the Game class
 class Game;
@@ -20,13 +21,13 @@ private:
     int _id;
     std::string _name;
     std::unique_ptr<sf::TcpSocket> _tcpSocket;
-    std::unique_ptr<sf::UdpSocket> _udpSocket;
     Game *_game = nullptr;
+    sf::IpAddress _ip;
 
 public:
     Client();
 
-    ClientSockets getSockets();
+    sf::TcpSocket *getSocket();
 
     void sendTcpPacket(sf::Packet &packet);
 
@@ -44,17 +45,27 @@ public:
 class Game {
 private:
     std::vector<Client *> _clients;
-    Client *host;
+    Client *_host;
     GameStatus _status = GAME_WAITING;
+    sf::UdpSocket _udpSocket;
+    std::string _name;
 
 public:
-    Game() = default;
+    Game(Client *host, const std::string &name);
 
-    std::optional<const char *> addClient(Client *client);
+    ~Game();
+
+    const std::string &getName() const;
+
+    optError addClient(Client *client);
+
+    optError removeClient(Client *client);
+
+    GameInfo getInfo() const;
 };
 
 class Server {
-private:
+public:
     sf::TcpListener listener;
     std::vector<Client *> clients;
     std::vector<Game *> games;

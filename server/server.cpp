@@ -19,11 +19,10 @@ void Server::run() {
         if (selector.wait()) {
             if (selector.isReady(listener)) {
                 auto newClient = new Client();
-                auto sockets = newClient->getSockets();
 
-                if (listener.accept(*std::get<0>(sockets)) == sf::Socket::Done) {
+                if (listener.accept(*newClient->getSocket()) == sf::Socket::Done) {
                     clients.push_back(newClient);
-                    selector.add(*std::get<0>(sockets));
+                    selector.add(*newClient->getSocket());
                     std::cout << "New client connected: " << newClient->getId() << std::endl;
                 } else {
                     std::cout << "Failed to accept new client" << std::endl;
@@ -34,16 +33,16 @@ void Server::run() {
 
                 while (it != clients.end()) {
                     auto client = *it;
-                    auto sockets = client->getSockets();
+                    auto tcpSocket = client->getSocket();
 
-                    if (selector.isReady(*std::get<0>(sockets))) {
+                    if (selector.isReady(*tcpSocket)) {
                         sf::Packet packet;
 
                         std::cout << "Waiting for packet from client " << client->getId() << std::endl;
-                        if (std::get<0>(sockets)->receive(packet) == sf::Socket::Done) {
+                        if (tcpSocket->receive(packet) == sf::Socket::Done) {
                             handleTcpCommand(packet, client);
                         } else {
-                            selector.remove(*std::get<0>(sockets));
+                            selector.remove(*tcpSocket);
                             std::cout << "Client " << client->getId() << " disconnected" << std::endl;
                             delete client;
                             it = clients.erase(it);
@@ -67,5 +66,8 @@ Server::~Server() {
 
     for (auto client : clients) {
         delete client;
+    }
+    for (auto game : games) {
+        delete game;
     }
 }

@@ -13,6 +13,7 @@ class World {
 private:
     std::vector<std::shared_ptr<Entity>> _entities;
     std::vector<std::shared_ptr<System>> _systems = {
+            std::make_shared<BackgroundSystem>(),
             std::make_shared<HealthSystem>(),
             std::make_shared<HitboxSystem>(),
             std::make_shared<MovementSystem>(),

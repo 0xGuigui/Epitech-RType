@@ -16,7 +16,7 @@ FetchContent_MakeAvailable(SFML)
 add_executable(r-type_client ${CLIENT_SRC} ${SHARED_SRC})
 add_executable(r-type_server ${SERVER_SRC} ${SHARED_SRC})
 
-target_link_libraries(r-type_client PRIVATE sfml-graphics)
+target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-network)
 target_link_libraries(r-type_server PRIVATE sfml-graphics sfml-network)
 
 target_compile_features(r-type_client PRIVATE cxx_std_20)

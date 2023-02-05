@@ -17,38 +17,36 @@ typedef std::optional<const char *> optError;
 class Game;
 
 class Client {
-private:
-    int _id;
-    std::string _name;
-    std::unique_ptr<sf::TcpSocket> _tcpSocket;
-    Game *_game = nullptr;
-    sf::IpAddress _ip;
+public:
+    int id;
+    std::string name;
+    std::unique_ptr<sf::TcpSocket> tcpSocket;
+    Game *game = nullptr;
 
 public:
     Client();
 
     sf::TcpSocket *getSocket();
 
-    void sendTcpPacket(sf::Packet &packet);
+    void sendTcpPacket(sf::Packet &packet) const;
 
-    void setName(const std::string &name);
+    template<typename... Args>
+    void sendTcpData(TcpResponse response, Args... args) {
+        sf::Packet packet;
 
-    void setGame(Game *game);
-
-    Game *getGame() const;
-
-    [[nodiscard]] const std::string &getName() const;
-
-    [[nodiscard]] int getId() const;
+        packet << response;
+        (packet << ... << args);
+        tcpSocket->send(packet);
+    }
 };
 
 class Game {
-private:
-    std::vector<Client *> _clients;
-    Client *_host;
-    GameStatus _status = GAME_WAITING;
-    sf::UdpSocket _udpSocket;
-    std::string _name;
+public:
+    std::vector<Client *> clients;
+    Client *host;
+    GameStatus status = GAME_WAITING;
+    sf::UdpSocket udpSocket;
+    std::string name;
 
 public:
     Game(Client *host, const std::string &name);

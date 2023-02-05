@@ -32,16 +32,16 @@ public:
 
     void removeEntity(const Entity &entity);
 
-    template<typename Component = ::Component, typename... Args>
+    template<typename Type = ::Component, typename... Args>
     [[nodiscard]] std::vector<std::shared_ptr<Entity>> getEntities() const {
 
-        if (std::is_same<Component, ::Component>())
+        if (std::is_same<Type, ::Component>() || std::is_same<Type, ::Entity>())
             return _entities;
 
         std::vector<std::shared_ptr<Entity>> ent = _entities;
 
         std::erase_if(ent, [](const std::shared_ptr<Entity> &e) -> bool {
-            return e->getComponent<Component>() == nullptr;
+            return e->getComponent<Type>() == nullptr && !dynamic_cast<Type *>(e.get());
         });
 
         std::vector<std::shared_ptr<Entity>> result = getEntities<Args...>();

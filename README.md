@@ -35,27 +35,7 @@ This project is a R-Type like game made with C++ and SFML. It was made for the E
 
 ### Prerequisites
 
-You need to have CMake and SFML installed on your computer. You can install SFML with the following command:
-
-Install SFML on MacOS:
-```shell
-brew install sfml
-```
-
-Install SFML on Linux (Debian based):
-```shell
-sudo apt-get install libsfml-dev
-```
-
-Install SFML on Windows:
-```shell
-choco install sfml
-```
-
-Note for Windows: If Chocolatey is not installed on your computer, you can install it with the following command:
-```shell
-iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
-```
+You need to have CMake installed on your computer.
 
 ### Installing
 
@@ -93,6 +73,6 @@ You can find the architecture of the project in the following image:
 
 ## ✍️ Authors <a name = "authors"></a>
 - [@Paul Gervais](https://github.com/gagonlaire) - Initial work - Client/Server
-- [@Florian Garnier](https://github.com/Suolumi) - ESC - Client
+- [@Florian Garnier](https://github.com/Suolumi) - ECS - Client
 - [@Julien Hennion](https://github.com/Yusisako) - Entity System - Client
 - [@Guilhem Jéhanno](https://github.com/Guigui1901) - Entity System - Client

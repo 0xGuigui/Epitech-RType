@@ -23,7 +23,7 @@ void Server::run() {
                 if (listener.accept(*newClient->getSocket()) == sf::Socket::Done) {
                     clients.push_back(newClient);
                     selector.add(*newClient->getSocket());
-                    std::cout << "New client connected: " << newClient->id << std::endl;
+                    std::cout << "New client connected: " << *newClient << std::endl;
                 } else {
                     std::cout << "Failed to accept new client" << std::endl;
                     delete newClient;
@@ -41,7 +41,7 @@ void Server::run() {
                         if (tcpSocket->receive(packet) == sf::Socket::Done) {
                             handleTcpCommand(packet, client);
                         } else {
-                            std::cout << client << " disconnected" << std::endl;
+                            std::cout << *client << " disconnected" << std::endl;
                             selector.remove(*tcpSocket);
                             delete client;
                             it = clients.erase(it);

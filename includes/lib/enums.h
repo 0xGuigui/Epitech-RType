@@ -16,6 +16,7 @@ enum TcpResponse {
     RES_LIST_GAMES,
     RES_USER_KICKED,
     RES_GAME_STARTED,
+    RES_GAME_TICK,
 };
 
 enum GameStatus {

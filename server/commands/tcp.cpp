@@ -28,14 +28,10 @@ void createGame(Server *server, sf::Packet &packet, Client *client) {
     client->sendTcpPacket(response);
 }
 
-void listGames(Server *server, sf::Packet &packet, Client *client) {
+void listGames(Server *server, Client *client) {
     sf::Packet response;
-    sf::Uint32 size = server->games.size();
 
-    response << RES_LIST_GAMES << size;
-    for (auto &game: server->games) {
-        response << game->getInfo();
-    }
+    response << RES_LIST_GAMES << server->games;
     client->sendTcpPacket(response);
 }
 
@@ -71,7 +67,7 @@ void joinGame(Server *server, sf::Packet &packet, Client *client) {
     client->sendTcpPacket(response);
 }
 
-void leaveGame(Server *server, sf::Packet &packet, Client *client) {
+void leaveGame(Server *server, Client *client) {
     Game *game = client->game;
 
     // @TODO: normalize this process as this need to be done when a player disconnect
@@ -79,9 +75,9 @@ void leaveGame(Server *server, sf::Packet &packet, Client *client) {
         return client->sendTcpData(RES_ERROR, "You are not in a game");
     if (game->host == client) {
         for (auto &_client: game->clients) {
-            _client->game = nullptr;
-            if (_client != client) {
-                _client->sendTcpData(RES_USER_KICKED, "Game closed");
+            _client.client->game = nullptr;
+            if (_client.client != client) {
+                _client.client->sendTcpData(RES_USER_KICKED, "Game closed");
             }
         }
         server->games.erase(std::find(server->games.begin(), server->games.end(), game));
@@ -95,15 +91,15 @@ void leaveGame(Server *server, sf::Packet &packet, Client *client) {
     client->sendTcpData(RES_OK, "You left the game");
 }
 
-void disconnectClient(Server *server, sf::Packet &packet, Client *client) {
+void disconnectClient(Server *server, Client *client) {
     Game *game = client->game;
 
     if (game != nullptr) {
         if (game->host == client) {
             for (auto &_client: game->clients) {
-                _client->game = nullptr;
-                if (_client != client) {
-                    _client->sendTcpData(RES_USER_KICKED, "Game closed");
+                _client.client->game = nullptr;
+                if (_client.client != client) {
+                    _client.client->sendTcpData(RES_USER_KICKED, "Game closed");
                 }
             }
             server->games.erase(std::find(server->games.begin(), server->games.end(), game));
@@ -117,7 +113,7 @@ void disconnectClient(Server *server, sf::Packet &packet, Client *client) {
     delete client;
 }
 
-void startGame(Server *server, sf::Packet &packet, Client *client) {
+void startGame(Server *server, Client *client) {
     Game *game = client->game;
 
     if (game == nullptr)
@@ -141,17 +137,17 @@ void Server::handleTcpCommand(sf::Packet &packet, Client *client) {
             createGame(this, packet, client);
             break;
         case REQ_LIST_GAMES:
-            listGames(this, packet, client);
+            listGames(this, client);
             break;
         case REQ_JOIN_GAME:
             joinGame(this, packet, client);
             break;
         case REQ_LEAVE_GAME:
-            leaveGame(this, packet, client);
+            leaveGame(this, client);
         case REQ_DISCONNECT:
-            disconnectClient(this, packet, client);
+            disconnectClient(this, client);
         case REQ_START_GAME:
-            startGame(this, packet, client);
+            startGame(this, client);
         default:
             break;
     }

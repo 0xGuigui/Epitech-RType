@@ -2,7 +2,9 @@
 
 Game::Game(Client *host, const std::string &name) {
     this->host = host;
-    this->clients.push_back(host);
+    auto newClient = GameClient();
+    newClient.client = host;
+    this->clients.push_back(newClient);
     this->name = name;
     host->game = this;
 }
@@ -15,7 +17,9 @@ optError Game::addClient(Client *client) {
     } else if (client->game != nullptr) {
         return {"Client is already in a game"};
     }
-    this->clients.push_back(client);
+    auto newClient = GameClient();
+    newClient.client = client;
+    this->clients.push_back(newClient);
     client->game = this;
     return std::nullopt;
 }
@@ -26,28 +30,24 @@ optError Game::removeClient(Client *client) {
     if (client == nullptr || client->game == nullptr) {
         return {"Client is not in a game"};
     }
-    auto it = this->clients.erase(
-            std::remove(this->clients.begin(), this->clients.end(), client),
-            this->clients.end()
+    auto it = std::find_if(
+            this->clients.begin(),
+            this->clients.end(),
+            [client](const GameClient &gameClient) {
+                return gameClient.client == client;
+            }
     );
     if (it == this->clients.end()) {
         return {"Client is not in this game"};
     } else {
         client->game = nullptr;
+        this->clients.erase(it);
     }
     return std::nullopt;
 }
 
 const std::string &Game::getName() const {
     return this->name;
-}
-
-Game::~Game() {
-    for (auto client : this->clients) {
-        client->game = nullptr;
-    }
-    udpSocket->unbind();
-    delete udpSocket;
 }
 
 GameInfo Game::getInfo() const {
@@ -58,11 +58,43 @@ GameInfo Game::getInfo() const {
     info.status = this->status;
     info.players = players;
     for (int i = 0; i < this->clients.size(); i++) {
-        info.players[i].name = this->clients[i]->name;
-        info.players[i].id = this->clients[i]->id;
-        info.players[i].ip = this->clients[i]->getSocket()->getRemoteAddress();
+        info.players[i].name = this->clients[i].client->name;
+        info.players[i].id = this->clients[i].client->id;
+        info.players[i].ip = this->clients[i].client->getSocket()->getRemoteAddress();
     }
     return info;
+}
+
+void Game::computeGameTick(sf::Int32 elapsed) {
+    // @TODO compute game tick
+}
+
+void Game::sendGameTick() {
+    for (auto client: this->clients) {
+        sf::Packet packet;
+
+        packet << RES_GAME_TICK;
+        this->udpSocket->send(packet, client.ip, client.port);
+    }
+}
+
+void Game::readClientPackets() {
+    sf::Packet packet;
+    sf::IpAddress sender;
+    unsigned short port;
+
+    while (this->udpSocket->receive(packet, sender, port) == sf::Socket::Done) {
+        for (auto client: this->clients) {
+            if (client.client->getSocket()->getRemoteAddress() == sender) {
+                if (client.port == 0) {
+                    client.port = port;
+                    client.ip = sender;
+                }
+                this->handleUdpPacket(packet, client.client);
+                break;
+            }
+        }
+    }
 }
 
 void Game::start(Server *server) {
@@ -70,22 +102,34 @@ void Game::start(Server *server) {
     this->udpSocket = new sf::UdpSocket();
     this->udpSocket->bind(sf::Socket::AnyPort);
     for (auto &_client: this->clients) {
-        _client->sendTcpData(RES_GAME_STARTED, this->udpSocket->getLocalPort());
+        _client.client->sendTcpData(RES_GAME_STARTED, this->udpSocket->getLocalPort());
     }
 
-    std::cout << "Game started on port " << this->udpSocket->getLocalPort() << std::endl;
-    server->gameThreads.emplace_back([this, server]() {
-        std::cout << "Game thread started" << std::endl;
+    this->gameThread = new std::thread([this, server]() {
+        sf::Clock clock;
+        sf::Int32 lastTick = 0;
+
         while (this->status == GAME_STARTED) {
-            sf::Packet packet;
-            sf::IpAddress sender;
-            unsigned short port;
-            if (this->udpSocket->receive(packet, sender, port) == sf::Socket::Done) {
-                // @TODO handle packet
-                std::string message;
-                packet >> message;
-                std::cout << "Received: " << message << std::endl;
+            sf::Int32 elapsed = clock.getElapsedTime().asMilliseconds();
+
+            if (elapsed - lastTick >= SERVER_TICK_TIME) {
+                lastTick = elapsed;
+                this->computeGameTick(elapsed);
+                this->sendGameTick();
             }
+            this->readClientPackets();
         }
     });
+}
+
+Game::~Game() {
+    if (this->gameThread != nullptr) {
+        this->gameThread->join();
+        delete this->gameThread;
+    }
+    for (auto client: this->clients) {
+        client.client->game = nullptr;
+    }
+    udpSocket->unbind();
+    delete udpSocket;
 }

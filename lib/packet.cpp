@@ -57,20 +57,11 @@ sf::Packet& operator >> (sf::Packet& packet, PlayerInfo& playerInfo) {
 }
 
 sf::Packet& operator << (sf::Packet& packet, const GameInfo& gameInfo) {
-    packet << gameInfo.name << gameInfo.status << static_cast<sf::Uint32>(gameInfo.players.size());
-    for (const auto& player : gameInfo.players) {
-        packet << player;
-    }
+    packet << gameInfo.name << gameInfo.status << gameInfo.players;
     return packet;
 }
 
 sf::Packet& operator >> (sf::Packet& packet, GameInfo& gameInfo) {
-    sf::Uint32 playerCount;
-
-    packet >> gameInfo.name >> gameInfo.status >> playerCount;
-    gameInfo.players.resize(playerCount);
-    for (auto& player : gameInfo.players) {
-        packet >> player;
-    }
+    packet >> gameInfo.name >> gameInfo.status >> gameInfo.players;
     return packet;
 }

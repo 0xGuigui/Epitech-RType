@@ -4,7 +4,7 @@ project(r-type LANGUAGES CXX)
 include_directories(includes)
 
 set(SHARED_SRC lib/error.cpp lib/packet.cpp)
-set(SERVER_SRC server/main.cpp server/server.cpp server/client.cpp server/commands/tcp.cpp server/game.cpp)
+set(SERVER_SRC server/main.cpp server/server.cpp server/client.cpp server/commands/tcp.cpp server/game.cpp server/commands/udp.cpp)
 set(CLIENT_SRC client/main.cpp client/keyboard_manager.cpp)
 
 include(FetchContent)

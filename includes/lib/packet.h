@@ -25,4 +25,24 @@ sf::Packet &operator<<(sf::Packet &packet, const GameInfo &game);
 
 sf::Packet &operator>>(sf::Packet &packet, GameInfo &game);
 
+template<typename T>
+sf::Packet &operator<<(sf::Packet &packet, const std::vector<T> &vector) {
+    packet << static_cast<sf::Uint32>(vector.size());
+    for (const auto &element : vector)
+        packet << element;
+    return packet;
+}
+
+template<typename T>
+sf::Packet &operator>>(sf::Packet &packet, std::vector<T> &vector) {
+    sf::Uint32 size;
+
+    if (packet >> size) {
+        vector.resize(size);
+        for (auto &element : vector)
+            packet >> element;
+    }
+    return packet;
+}
+
 sf::Packet createResponse(TcpResponse response, const std::string &message);

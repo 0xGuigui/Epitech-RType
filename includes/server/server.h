@@ -12,10 +12,12 @@
 #include "lib/structs.h"
 
 #define MAX_GAME_PLAYERS 4
+#define SERVER_TICK_RATE 20
+#define SERVER_TICK_TIME 1000 / SERVER_TICK_RATE
 
 typedef std::optional<const char *> optError;
 
-// Forward declaration of the Game class
+// Forward declaration
 class Game;
 class Server;
 
@@ -29,7 +31,7 @@ public:
 public:
     Client();
 
-    sf::TcpSocket *getSocket();
+    [[nodiscard]] sf::TcpSocket *getSocket() const;
 
     void sendTcpPacket(sf::Packet &packet) const;
 
@@ -43,28 +45,45 @@ public:
     }
 };
 
+std::ostream& operator<<(std::ostream& os, const Client& client);
+
+struct GameClient {
+    Client *client = nullptr;
+    sf::IpAddress ip = sf::IpAddress::None;
+    unsigned short port = 0;
+};
+
 class Game {
 public:
-    std::vector<Client *> clients;
+    std::vector<GameClient> clients;
     Client *host;
-    std::atomic<GameStatus> status = GAME_WAITING;
     sf::UdpSocket *udpSocket = nullptr;
+    std::thread *gameThread = nullptr;
     std::string name;
+    std::atomic<GameStatus> status = GAME_WAITING;
 
 public:
     Game(Client *host, const std::string &name);
 
     ~Game();
 
-    const std::string &getName() const;
+    [[nodiscard]] const std::string &getName() const;
 
     optError addClient(Client *client);
 
     optError removeClient(Client *client);
 
-    GameInfo getInfo() const;
+    [[nodiscard]] GameInfo getInfo() const;
+
+    void readClientPackets();
+
+    void handleUdpPacket(sf::Packet &packet, Client *client);
 
     void start(Server *server);
+
+    void computeGameTick(sf::Int32 elapsed);
+
+    void sendGameTick();
 };
 
 class Server {

@@ -38,12 +38,11 @@ void Server::run() {
                     if (selector.isReady(*tcpSocket)) {
                         sf::Packet packet;
 
-                        std::cout << "Waiting for packet from client " << client->id << std::endl;
                         if (tcpSocket->receive(packet) == sf::Socket::Done) {
                             handleTcpCommand(packet, client);
                         } else {
+                            std::cout << client << " disconnected" << std::endl;
                             selector.remove(*tcpSocket);
-                            std::cout << "Client " << client->id << " disconnected" << std::endl;
                             delete client;
                             it = clients.erase(it);
                             continue;
@@ -66,9 +65,6 @@ Server::~Server() {
 
     for (auto game : games) {
         game->status = GAME_STOPPED;
-    }
-    for (auto &thread : gameThreads) {
-        thread.join();
     }
     for (auto game : games) {
         delete game;

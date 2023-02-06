@@ -6,10 +6,10 @@
 #include "client/utils/background.h"
 
 // Clion run version
-RType rtype("../resources");
+//RType rtype("../resources");
 // Terminal run version
 // init global instance of RType
-//RType rtype("resources");
+RType rtype("resources");
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({1920, 1080}), "R-Type");

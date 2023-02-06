@@ -24,14 +24,6 @@ sf::Packet &operator>>(sf::Packet &packet, TcpResponse &response) {
     return packet;
 }
 
-sf::Packet createResponse(TcpResponse response, const std::string &message) {
-    sf::Packet packet;
-
-    packet << response;
-    packet << message;
-    return packet;
-}
-
 sf::Packet &operator<<(sf::Packet &packet, const GameStatus &status) {
     return packet << static_cast<sf::Uint8>(status);
 }

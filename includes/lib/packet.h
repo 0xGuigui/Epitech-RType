@@ -44,5 +44,3 @@ sf::Packet &operator>>(sf::Packet &packet, std::vector<T> &vector) {
     }
     return packet;
 }
-
-sf::Packet createResponse(TcpResponse response, const std::string &message);

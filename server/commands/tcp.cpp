@@ -5,9 +5,7 @@ void setName(sf::Packet &packet, Client *client) {
 
     packet >> name;
     client->name = name;
-
-    sf::Packet response = createResponse(RES_OK, "Name set");
-    client->sendTcpPacket(response);
+    client->sendTcpData(RES_OK, "Name set");
 }
 
 void createGame(Server *server, sf::Packet &packet, Client *client) {
@@ -15,56 +13,42 @@ void createGame(Server *server, sf::Packet &packet, Client *client) {
 
     packet >> name;
     for (auto &game: server->games) {
-        if (game->getName() == name) {
-            sf::Packet response = createResponse(RES_ERROR, "Name already taken");
-            client->sendTcpPacket(response);
-            return;
-        }
+        if (game->getName() == name)
+            return client->sendTcpData(RES_ERROR, "Name already taken");
     }
     Game *game = new Game(client, name);
     client->game = game;
     server->games.push_back(game);
-    sf::Packet response = createResponse(RES_OK, "Game created");
-    client->sendTcpPacket(response);
+    client->sendTcpData(RES_OK, "Game created");
 }
 
 void listGames(Server *server, Client *client) {
-    sf::Packet response;
+    std::vector<GameInfo> gamesInfos = std::vector<GameInfo>(server->games.size());
 
-    response << RES_LIST_GAMES << server->games;
-    client->sendTcpPacket(response);
+    for (int i = 0; i < server->games.size(); i++) {
+        gamesInfos[i] = server->games[i]->getInfo();
+    }
+    client->sendTcpData(RES_LIST_GAMES, gamesInfos);
 }
 
 void joinGame(Server *server, sf::Packet &packet, Client *client) {
     std::string name;
 
     packet >> name;
-    if (client->game != nullptr) {
-        sf::Packet response = createResponse(RES_ERROR, "You are already in a game");
-        client->sendTcpPacket(response);
-        return;
-    }
+    if (client->game != nullptr)
+        return client->sendTcpData(RES_ERROR, "You are already in a game");
     for (auto &game: server->games) {
         if (game->getName() == name) {
-            if (game->clients.size() >= MAX_GAME_PLAYERS) {
-                sf::Packet response = createResponse(RES_ERROR, "Game is full");
-                client->sendTcpPacket(response);
-                return;
-            }
-            if (game->status != GAME_WAITING) {
-                sf::Packet response = createResponse(RES_ERROR, "Game can't be joined");
-                client->sendTcpPacket(response);
-                return;
-            }
+            if (game->clients.size() >= MAX_GAME_PLAYERS)
+                return client->sendTcpData(RES_ERROR, "Game is full");
+            if (game->status != GAME_WAITING)
+                return client->sendTcpData(RES_ERROR, "Game can't be joined");
             game->addClient(client);
             client->game = game;
-            sf::Packet response = createResponse(RES_OK, "Joined game");
-            client->sendTcpPacket(response);
-            return;
+            return client->sendTcpData(RES_OK, "You joined the game");
         }
     }
-    sf::Packet response = createResponse(RES_ERROR, "Game not found");
-    client->sendTcpPacket(response);
+    client->sendTcpData(RES_ERROR, "Game not found");
 }
 
 void leaveGame(Server *server, Client *client) {
@@ -86,8 +70,6 @@ void leaveGame(Server *server, Client *client) {
         game->removeClient(client);
     }
     client->game = nullptr;
-    sf::Packet response = createResponse(RES_OK, "Left game");
-    client->sendTcpPacket(response);
     client->sendTcpData(RES_OK, "You left the game");
 }
 

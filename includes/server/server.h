@@ -13,7 +13,7 @@
 
 #define MAX_GAME_PLAYERS 4
 #define SERVER_TICK_RATE 20
-#define SERVER_TICK_TIME 1000 / SERVER_TICK_RATE
+#define SERVER_TICK_TIME (1000 / SERVER_TICK_RATE)
 
 typedef std::optional<const char *> optError;
 

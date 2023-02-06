@@ -64,10 +64,16 @@ Server::~Server() {
     std::cout << "Stopping server" << std::endl;
     listener.close();
 
-    for (auto client : clients) {
-        delete client;
+    for (auto game : games) {
+        game->status = GAME_STOPPED;
+    }
+    for (auto &thread : gameThreads) {
+        thread.join();
     }
     for (auto game : games) {
         delete game;
+    }
+    for (auto client : clients) {
+        delete client;
     }
 }

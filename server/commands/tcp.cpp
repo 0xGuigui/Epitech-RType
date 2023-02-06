@@ -124,14 +124,9 @@ void startGame(Server *server, sf::Packet &packet, Client *client) {
         return client->sendTcpData(RES_ERROR, "You are not in a game");
     if (game->host != client)
         return client->sendTcpData(RES_ERROR, "You are not the host");
-    if (game->clients.size() < 2)
-        return client->sendTcpData(RES_ERROR, "Not enough players");
     if (game->status != GAME_WAITING)
         return client->sendTcpData(RES_ERROR, "Game already started");
-    game->status = GAME_STARTED;
-    for (auto &_client: game->clients) {
-        _client->sendTcpData(RES_GAME_STARTED);
-    }
+    game->start(server);
 }
 
 void Server::handleTcpCommand(sf::Packet &packet, Client *client) {
@@ -155,6 +150,8 @@ void Server::handleTcpCommand(sf::Packet &packet, Client *client) {
             leaveGame(this, packet, client);
         case REQ_DISCONNECT:
             disconnectClient(this, packet, client);
+        case REQ_START_GAME:
+            startGame(this, packet, client);
         default:
             break;
     }

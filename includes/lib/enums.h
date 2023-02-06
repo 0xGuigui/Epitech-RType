@@ -22,4 +22,5 @@ enum GameStatus {
     GAME_WAITING,
     GAME_STARTED,
     GAME_ENDED,
+    GAME_STOPPED,
 };

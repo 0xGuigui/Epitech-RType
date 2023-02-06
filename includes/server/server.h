@@ -6,6 +6,8 @@
 #include <tuple>
 #include <climits>
 #include <optional>
+#include <atomic>
+#include <thread>
 #include "lib/packet.h"
 #include "lib/structs.h"
 
@@ -15,6 +17,7 @@ typedef std::optional<const char *> optError;
 
 // Forward declaration of the Game class
 class Game;
+class Server;
 
 class Client {
 public:
@@ -44,8 +47,8 @@ class Game {
 public:
     std::vector<Client *> clients;
     Client *host;
-    GameStatus status = GAME_WAITING;
-    sf::UdpSocket udpSocket;
+    std::atomic<GameStatus> status = GAME_WAITING;
+    sf::UdpSocket *udpSocket = nullptr;
     std::string name;
 
 public:
@@ -60,6 +63,8 @@ public:
     optError removeClient(Client *client);
 
     GameInfo getInfo() const;
+
+    void start(Server *server);
 };
 
 class Server {
@@ -69,6 +74,7 @@ public:
     std::vector<Game *> games;
     sf::SocketSelector selector;
     bool running = false;
+    std::vector<std::thread> gameThreads;
 
 public:
     explicit Server(int port = 5000);

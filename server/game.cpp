@@ -46,7 +46,8 @@ Game::~Game() {
     for (auto client : this->clients) {
         client->game = nullptr;
     }
-    udpSocket.unbind();
+    udpSocket->unbind();
+    delete udpSocket;
 }
 
 GameInfo Game::getInfo() const {
@@ -62,4 +63,29 @@ GameInfo Game::getInfo() const {
         info.players[i].ip = this->clients[i]->getSocket()->getRemoteAddress();
     }
     return info;
+}
+
+void Game::start(Server *server) {
+    this->status = GAME_STARTED;
+    this->udpSocket = new sf::UdpSocket();
+    this->udpSocket->bind(sf::Socket::AnyPort);
+    for (auto &_client: this->clients) {
+        _client->sendTcpData(RES_GAME_STARTED, this->udpSocket->getLocalPort());
+    }
+
+    std::cout << "Game started on port " << this->udpSocket->getLocalPort() << std::endl;
+    server->gameThreads.emplace_back([this, server]() {
+        std::cout << "Game thread started" << std::endl;
+        while (this->status == GAME_STARTED) {
+            sf::Packet packet;
+            sf::IpAddress sender;
+            unsigned short port;
+            if (this->udpSocket->receive(packet, sender, port) == sf::Socket::Done) {
+                // @TODO handle packet
+                std::string message;
+                packet >> message;
+                std::cout << "Received: " << message << std::endl;
+            }
+        }
+    });
 }

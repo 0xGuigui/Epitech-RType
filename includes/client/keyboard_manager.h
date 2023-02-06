@@ -12,6 +12,11 @@ private:
 public:
     KeyboardManager() = default;
 
+    /* Binds two functions, respectively onPress and onRelease to a key of the keyboard
+     * If that key is pressed, the onPress function will called,
+     * If that key is released, the onRelease function will be called
+     * If the override parameter is false and the key is already bound, the function will throw an error
+     */
     void bind(const sf::Keyboard::Key &key, const std::function<void()> &onPress = []() {}, const std::function<void()> &onRelease = []() {}, const bool &override = false);
 
     void bind(const sf::Keyboard::Key &key, const std::pair<std::function<void()>, std::function<void()>> &pair, const bool &override = false);

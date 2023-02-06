@@ -7,3 +7,4 @@
 #include "client/components/rotation_component.h"
 #include "client/components/scale_component.h"
 #include "client/components/velocity_component.h"
+#include "client/components/animation_component.h"

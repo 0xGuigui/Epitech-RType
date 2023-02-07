@@ -4,7 +4,7 @@
 #include "client/components/components.h"
 #include "client/entities/powerup.h"
 #include "client/utils/background.h"
-#include <stdlib.h>
+#include "lib/random.h"
 
 // Clion run version
 //RType rtype("../resources");
@@ -23,7 +23,7 @@ int main() {
     createMainPlayer();
     std::shared_ptr<Monster> monster = rtype.world.createEntity<Monster>();
     monster->getComponent<VelocityComponent>()->setVelocity(-80, 0);
-    monster->getComponent<PositionComponent>()->setPosition(static_cast<float>(window.getSize().x), static_cast<float>(random() % 500) + 300);
+    monster->getComponent<PositionComponent>()->setPosition(static_cast<float>(window.getSize().x), static_cast<float>(Random::generate() % 500) + 300);
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {

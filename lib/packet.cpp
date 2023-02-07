@@ -24,6 +24,30 @@ sf::Packet &operator>>(sf::Packet &packet, TcpResponse &response) {
     return packet;
 }
 
+sf::Packet &operator<<(sf::Packet &packet, const UdpRequest &request) {
+    return packet << static_cast<sf::Uint8>(request);
+}
+
+sf::Packet &operator>>(sf::Packet &packet, UdpRequest &request) {
+    sf::Uint8 requestValue;
+
+    if (packet >> requestValue)
+        request = static_cast<UdpRequest>(requestValue);
+    return packet;
+}
+
+sf::Packet &operator<<(sf::Packet &packet, const UdpResponse &response) {
+    return packet << static_cast<sf::Uint8>(response);
+}
+
+sf::Packet &operator>>(sf::Packet &packet, UdpResponse &response) {
+    sf::Uint8 responseValue;
+
+    if (packet >> responseValue)
+        response = static_cast<UdpResponse>(responseValue);
+    return packet;
+}
+
 sf::Packet &operator<<(sf::Packet &packet, const GameStatus &status) {
     return packet << static_cast<sf::Uint8>(status);
 }
@@ -36,11 +60,11 @@ sf::Packet &operator>>(sf::Packet &packet, GameStatus &status) {
     return packet;
 }
 
-sf::Packet& operator << (sf::Packet& packet, const PlayerInfo& playerInfo) {
+sf::Packet &operator<<(sf::Packet &packet, const PlayerInfo &playerInfo) {
     return packet << playerInfo.id << playerInfo.name << playerInfo.ip.toString();
 }
 
-sf::Packet& operator >> (sf::Packet& packet, PlayerInfo& playerInfo) {
+sf::Packet &operator>>(sf::Packet &packet, PlayerInfo &playerInfo) {
     std::string ipAddress;
 
     packet >> playerInfo.id >> playerInfo.name >> ipAddress;
@@ -48,12 +72,12 @@ sf::Packet& operator >> (sf::Packet& packet, PlayerInfo& playerInfo) {
     return packet;
 }
 
-sf::Packet& operator << (sf::Packet& packet, const GameInfo& gameInfo) {
+sf::Packet &operator<<(sf::Packet &packet, const GameInfo &gameInfo) {
     packet << gameInfo.name << gameInfo.status << gameInfo.players;
     return packet;
 }
 
-sf::Packet& operator >> (sf::Packet& packet, GameInfo& gameInfo) {
+sf::Packet &operator>>(sf::Packet &packet, GameInfo &gameInfo) {
     packet >> gameInfo.name >> gameInfo.status >> gameInfo.players;
     return packet;
 }

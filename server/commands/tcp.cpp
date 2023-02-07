@@ -45,7 +45,12 @@ void joinGame(Server *server, sf::Packet &packet, Client *client) {
                 return client->sendTcpData(RES_ERROR, "Game can't be joined");
             game->addClient(client);
             client->game = game;
-            return client->sendTcpData(RES_OK, "You joined the game");
+            client->sendTcpData(RES_OK, "You joined the game");
+            for (auto _client : game->clients) {
+                if (_client.client != client) {
+                    _client.client->sendTcpData(RES_USER_JOINED, client->name + " joined the game");
+                }
+            }
         }
     }
     client->sendTcpData(RES_ERROR, "Game not found");
@@ -61,13 +66,18 @@ void leaveGame(Server *server, Client *client) {
         for (auto &_client: game->clients) {
             _client.client->game = nullptr;
             if (_client.client != client) {
-                _client.client->sendTcpData(RES_USER_KICKED, "Game closed");
+                _client.client->sendTcpData(RES_USER_LEAVED, "Game closed");
             }
         }
         server->games.erase(std::find(server->games.begin(), server->games.end(), game));
         delete game;
     } else {
         game->removeClient(client);
+        for (auto _client : game->clients) {
+            if (_client.client != client) {
+                _client.client->sendTcpData(RES_USER_LEAVED, client->name + " leaved the game");
+            }
+        }
     }
     client->game = nullptr;
     client->sendTcpData(RES_OK, "You left the game");
@@ -81,7 +91,7 @@ void disconnectClient(Server *server, Client *client) {
             for (auto &_client: game->clients) {
                 _client.client->game = nullptr;
                 if (_client.client != client) {
-                    _client.client->sendTcpData(RES_USER_KICKED, "Game closed");
+                    _client.client->sendTcpData(RES_USER_LEAVED, "Game closed");
                 }
             }
             server->games.erase(std::find(server->games.begin(), server->games.end(), game));

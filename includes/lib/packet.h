@@ -13,6 +13,14 @@ sf::Packet &operator<<(sf::Packet &packet, const TcpResponse &response);
 
 sf::Packet &operator>>(sf::Packet &packet, TcpResponse &response);
 
+sf::Packet &operator<<(sf::Packet &packet, const UdpRequest &request);
+
+sf::Packet &operator>>(sf::Packet &packet, UdpRequest &request);
+
+sf::Packet &operator<<(sf::Packet &packet, const UdpResponse &response);
+
+sf::Packet &operator>>(sf::Packet &packet, UdpResponse &response);
+
 sf::Packet &operator<<(sf::Packet &packet, const GameStatus &status);
 
 sf::Packet &operator>>(sf::Packet &packet, GameStatus &status);
@@ -28,7 +36,7 @@ sf::Packet &operator>>(sf::Packet &packet, GameInfo &game);
 template<typename T>
 sf::Packet &operator<<(sf::Packet &packet, const std::vector<T> &vector) {
     packet << static_cast<sf::Uint32>(vector.size());
-    for (const auto &element : vector)
+    for (const auto &element: vector)
         packet << element;
     return packet;
 }
@@ -39,7 +47,7 @@ sf::Packet &operator>>(sf::Packet &packet, std::vector<T> &vector) {
 
     if (packet >> size) {
         vector.resize(size);
-        for (auto &element : vector)
+        for (auto &element: vector)
             packet >> element;
     }
     return packet;

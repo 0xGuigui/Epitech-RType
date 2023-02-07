@@ -14,8 +14,16 @@ enum TcpResponse {
     RES_ERROR,
     RES_OK,
     RES_LIST_GAMES,
-    RES_USER_KICKED,
+    RES_USER_LEAVED,
     RES_GAME_STARTED,
+    RES_USER_JOINED,
+};
+
+enum UdpRequest {
+    REQ_GAME_TICK,
+};
+
+enum UdpResponse {
     RES_GAME_TICK,
 };
 

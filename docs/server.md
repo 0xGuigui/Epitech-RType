@@ -48,6 +48,12 @@ if (response == RES_OK) {
 }
 ```
 
+don't forget to clear the packet before reusing it, or the server will not understand the request.
+
+```c++
+packet.clear();
+```
+
 ### Commands
 
 | Command         | Description           | Parameters  | Response                    |
@@ -59,3 +65,9 @@ if (response == RES_OK) {
 | REQ_SET_NAME    | Set the client name   | Client name | RES_OK, RES_ERROR           |
 | REQ_DISCONNECT  | Disconnect the client | -           | RES_OK, RES_ERROR           |
 | REQ_LIST_GAMES  | List all games        | -           | RES_OK, RES_ERROR           |
+
+## Events
+
+When a client is connected to the server and is in a game, he will receive events from the server.
+There is three kinds: `RES_USER_LEAVED`, `RES_GAME_STARTED`, `RES_USER_JOINED`. When the `RES_GAME_STARTED` event is received,
+the client must connect to the game server using udp and the port provided in the packet.

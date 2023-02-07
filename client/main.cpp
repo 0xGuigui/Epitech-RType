@@ -5,6 +5,8 @@
 #include "client/entities/powerup.h"
 #include "client/utils/background.h"
 #include "lib/random.h"
+#include "SFML/Network.hpp"
+#include "lib/packet.h"
 
 // Clion run version
 //RType rtype("../resources");
@@ -13,6 +15,41 @@
 RType rtype("resources");
 
 int main() {
+    sf::TcpSocket socket;
+    sf::Socket::Status status = socket.connect("localhost", 50000);
+
+    if (status != sf::Socket::Done) {
+        std::cerr << "Error while connecting to server" << std::endl;
+        return 1;
+    }
+    TcpResponse response;
+    sf::Packet packet;
+    packet << REQ_SET_NAME << "test";
+    socket.send(packet);
+    packet.clear();
+    socket.receive(packet);
+    packet >> response;
+    packet.clear();
+    packet << REQ_CREATE_GAME << "test game";
+    socket.send(packet);
+    packet.clear();
+    socket.receive(packet);
+    packet.clear();
+    packet << REQ_LIST_GAMES;
+    socket.send(packet);
+    packet.clear();
+    socket.receive(packet);
+    packet >> response;
+
+    if (response == RES_LIST_GAMES) {
+        std::vector<GameInfo> games;
+
+        packet >> games;
+        for (auto &game : games) {
+            std::cout << game.name << std::endl;
+        }
+    }
+
     sf::RenderWindow window(sf::VideoMode({1920, 1080}), "R-Type");
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);

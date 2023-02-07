@@ -4,6 +4,7 @@
 #include "client/components/components.h"
 #include "client/entities/powerup.h"
 #include "client/utils/background.h"
+#include <stdlib.h>
 
 // Clion run version
 //RType rtype("../resources");

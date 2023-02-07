@@ -11,7 +11,7 @@ void HealthSystem::update(sf::RenderWindow &window, World &world, float delta) {
     for (std::shared_ptr<Entity> &entity : entities) {
         std::shared_ptr<HealthComponent> healthComponent = entity->getComponent<HealthComponent>();
 
-        if (healthComponent->health <= 0)
+        if (healthComponent->getHealth() <= 0)
             healthComponent->onDeath();
     }
 }

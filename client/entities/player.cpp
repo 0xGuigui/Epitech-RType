@@ -15,9 +15,14 @@ Player::Player(PlayerColor playerColor) : Entity() {
     spr.setTextureRect(playerColors[playerColor]);
 
     addComponent<PositionComponent>(500, 500);
-    addComponent<HealthComponent>(100, 0);
     addComponent<VelocityComponent>(0, 0);
     addComponent<RenderComponent>(spr);
+
+    HealthComponent health(100, 0);
+    health.setOnDeath([this]() {
+        this->eraseSelf();
+    });
+    addComponent<HealthComponent>(health);
 
     HitboxComponent hitboxComponent(spr, [this](std::shared_ptr<Entity> &e, const std::type_index &type) {
         std::shared_ptr<HealthComponent> healthComponent = e->getComponent<HealthComponent>();
@@ -25,7 +30,7 @@ Player::Player(PlayerColor playerColor) : Entity() {
         if (healthComponent) {
             std::shared_ptr<HealthComponent> thisHealth = getComponent<HealthComponent>();
 
-            thisHealth->setHealth(thisHealth->health - healthComponent->damage);
+            healthComponent->setHealth(healthComponent->getHealth() - thisHealth->getDamage());
         }
     });
     hitboxComponent.setCollidables<Projectile>();

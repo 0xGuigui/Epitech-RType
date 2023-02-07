@@ -6,10 +6,10 @@
 #include "client/utils/background.h"
 
 // Clion run version
-RType rtype("../resources");
+//RType rtype("../resources");
 // Terminal run version
 // init global instance of RType
-//RType rtype("resources");
+RType rtype("resources");
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({1920, 1080}), "R-Type");
@@ -20,6 +20,9 @@ int main() {
     std::shared_ptr<Background> background2 = rtype.world.createEntity<Background>(window);
     background2->getComponent<PositionComponent>()->setPosition(static_cast<float>(window.getSize().x), 0);
     createMainPlayer();
+    std::shared_ptr<Monster> monster = rtype.world.createEntity<Monster>();
+    monster->getComponent<VelocityComponent>()->setVelocity(-80, 0);
+    monster->getComponent<PositionComponent>()->setPosition(static_cast<float>(window.getSize().x), static_cast<float>(random() % 500) + 300);
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {

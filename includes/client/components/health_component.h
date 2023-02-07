@@ -9,18 +9,19 @@ private:
     float _damage = 0;
     std::function<void()> _onDeath = []() {};
 public:
-    const float &health = _health;
-    const float &damage = _damage;
-
     explicit HealthComponent(const float &hp = 0, const float &dmg = 0);
 
     void setHealth(const float &hp);
 
     void setDamage(const float &dmg);
 
-    void setOnDeath(std::function<void()> &function);
+    void setOnDeath(const std::function<void()> &function);
 
     void onDeath();
+
+    float &getHealth();
+
+    float &getDamage();
 
     void cast() const override {};
 };

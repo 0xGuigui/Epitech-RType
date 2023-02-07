@@ -17,7 +17,7 @@ IndestructibleObstacle::IndestructibleObstacle() : Entity() {
         if (healthComponent) {
             std::shared_ptr<HealthComponent> thisHealth = getComponent<HealthComponent>();
 
-            thisHealth->setHealth(thisHealth->health - healthComponent->damage);
+            healthComponent->setHealth(healthComponent->getHealth() - thisHealth->getDamage());
         }
     });
     hitboxComponent.setCollidables<Projectile>();

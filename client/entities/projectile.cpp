@@ -23,10 +23,12 @@ Projectile::Projectile(const std::shared_ptr<Entity>& creator) : Entity() {
                 return;
         }
 
-        std::shared_ptr<HealthComponent> healthComponent = this->getComponent<HealthComponent>();
+        std::shared_ptr<HealthComponent> thisHealth = this->getComponent<HealthComponent>();
+        std::shared_ptr<HealthComponent> healthComponent = e->getComponent<HealthComponent>();
 
         if (healthComponent)
-            healthComponent->setHealth(0);
+            healthComponent->setHealth(healthComponent->getHealth() - thisHealth->getDamage());
+        thisHealth->setHealth(0);
         this->eraseSelf();
     });
     hitboxComponent.setCollidables<Player, Monster>();

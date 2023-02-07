@@ -13,10 +13,18 @@ void HealthComponent::setHealth(const float &hp) {
     _health = hp;
 }
 
-void HealthComponent::setOnDeath(std::function<void()> &function) {
+void HealthComponent::setOnDeath(const std::function<void()> &function) {
     _onDeath = function;
 }
 
 void HealthComponent::onDeath() {
     _onDeath();
+}
+
+float &HealthComponent::getHealth() {
+    return _health;
+}
+
+float &HealthComponent::getDamage() {
+    return _damage;
 }

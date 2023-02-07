@@ -11,8 +11,10 @@ private:
     std::function<void(std::shared_ptr<Entity> &, const std::type_index &)> _onCollide;
     std::vector<std::type_index> _collidableWith;
 
+    // This function is the second part of setCollidables, as it wasn't possible to only clear the vector on the first call
     template<typename Entity = ::Entity, typename... Args>
     void _setCollidables() {
+        // If there's no arguments then everything is collidable
         if (_collidableWith.empty() && std::is_same<Entity, ::Entity>()) {
             _collidableWith.emplace_back(typeid(::Entity));
             return;
@@ -28,6 +30,7 @@ public:
 
     HitboxComponent(const sf::Sprite &sprite, std::function<void(std::shared_ptr<Entity> &, const std::type_index &)> function);
 
+    // This function takes all the Entity types you want your Entity to collide with in template arguments
     template<typename... Args>
     void setCollidables() {
         _collidableWith.clear();

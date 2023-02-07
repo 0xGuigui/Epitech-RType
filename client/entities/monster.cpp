@@ -21,9 +21,15 @@ Monster::Monster(monsterType monsterType) : Entity() {
     spr.setTextureRect(monsterTypeSprite[monsterType]);
 
     addComponent<PositionComponent>(200, 200);
-    addComponent<HealthComponent>(100, 100);
     addComponent<RenderComponent>(spr);
     addComponent<ScaleComponent>(5, 5);
+    addComponent<VelocityComponent>(0, 0);
+
+    HealthComponent health(100, 100);
+    health.setOnDeath([this]() {
+        this->eraseSelf();
+    });
+    addComponent<HealthComponent>(health);
 
     HitboxComponent hitboxComponent(spr, [this](std::shared_ptr<Entity> &e, const std::type_index &type) {
         std::shared_ptr<HealthComponent> healthComponent = e->getComponent<HealthComponent>();
@@ -31,7 +37,7 @@ Monster::Monster(monsterType monsterType) : Entity() {
         if (healthComponent) {
             std::shared_ptr<HealthComponent> thisHealth = getComponent<HealthComponent>();
 
-            thisHealth->setHealth(thisHealth->health - healthComponent->damage);
+            healthComponent->setHealth(healthComponent->getHealth() - thisHealth->getDamage());
         }
     });
     hitboxComponent.setCollidables<Projectile, Player>();

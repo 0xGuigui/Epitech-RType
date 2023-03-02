@@ -1,5 +1,14 @@
-#include <iostream>
+#include "server/server.h"
 
 int main() {
-    std::cout << "Hello from server" << std::endl;
+    Server server(50000);
+
+    try {
+        server.run();
+    } catch (std::exception &e) {
+        // catch any unhandled exceptions
+        std::cerr << e.what() << std::endl;
+        server.stop();
+    }
+    return 0;
 }

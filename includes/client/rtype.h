@@ -3,11 +3,9 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include <string>
-
-// temporary includes to avoid "project not in project" errors
 #include "client/resource_manager.h"
 #include "client/keyboard_manager.h"
-#include "client/ui/core.h"
+#include "client/world.h"
 
 struct RType {
     explicit RType(const std::string &basePath) : textures(basePath + "/textures"), fonts(basePath + "/fonts") {}
@@ -23,6 +21,9 @@ struct RType {
     ResourceManager<sf::Texture> textures;
     ResourceManager<sf::Font> fonts;
     KeyboardManager keyboard;
+    World world;
 };
+
+void createMainPlayer();
 
 extern RType rtype;

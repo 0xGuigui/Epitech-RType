@@ -29,7 +29,7 @@
 
 ## 🧐 About <a name = "about"></a>
 
-This project is a R-Type like game made with C++ and SFML. It was made for the Epitech's C++. It is a multiplayer game where you can play with your friends. The game is made with a client/server architecture. The server is made with C++ and the client is made with C++ and SFML.
+This project is an R-Type-like game made with C++ and SFML. It was created for an Epitech C++ project and is a multiplayer game that allows you to play with your friends. The game has a client-server architecture, with the server built in C++ and the client built in C++ with SFML.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
@@ -67,8 +67,8 @@ Run the client:
 
 ## 🎨 Architecture <a name = "architecture"></a>
 
-The project is made with a client/server architecture. The server is made with C++ and the client is made with C++ and SFML with a Entity System Component architecture.
-</br></br>
+The project has a client-server architecture, with the server built in C++ and the client built in C++ with SFML using an Entity System Component architecture.
+<br></br>
 You can find the architecture of the project in the following image:
 
 ## ✍️ Authors <a name = "authors"></a>

@@ -17,6 +17,7 @@ Player::Player(PlayerColor playerColor) : Entity() {
     addComponent<PositionComponent>(500, 500);
     addComponent<VelocityComponent>(0, 0);
     addComponent<RenderComponent>(spr);
+    addComponent<ScaleComponent>(2, 2);
 
     HealthComponent health(100, 0);
     health.setOnDeath([this]() {

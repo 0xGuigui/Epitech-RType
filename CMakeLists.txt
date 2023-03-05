@@ -23,7 +23,7 @@ set(CLIENT_SRC client/main.cpp
         client/systems/health_system.cpp
         client/entities/player.cpp
         client/entities/projectile.cpp
-        client/entities/monster.cpp client/entities/indestructibleObstacle.cpp client/entities/obstacle.cpp client/entities/powerup.cpp client/init.cpp client/systems/system.cpp client/utils/background.cpp client/systems/background_system.cpp client/components/animation_component.cpp client/systems/animation_system.cpp client/components/audio_component.cpp)
+        client/entities/monster.cpp client/entities/indestructibleObstacle.cpp client/entities/obstacle.cpp client/entities/powerup.cpp client/init.cpp client/systems/system.cpp client/utils/background.cpp client/systems/background_system.cpp client/components/animation_component.cpp client/systems/animation_system.cpp client/components/audio_component.cpp client/systems/audio_system.cpp)
 
 include(FetchContent)
 FetchContent_Declare(SFML

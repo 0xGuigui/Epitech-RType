@@ -12,10 +12,10 @@ static const sf::Keyboard::Key directions[] {
 };
 
 static const sf::Vector2<float> velocity[] {
-        {0, -100},
-        {0, 100},
-        {-100, 0},
-        {100, 0}
+        {0, -200},
+        {0, 200},
+        {-200, 0},
+        {200, 0}
 };
 
 void createMainPlayer() {

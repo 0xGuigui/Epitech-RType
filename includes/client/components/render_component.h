@@ -16,4 +16,8 @@ public:
     sf::Sprite &getRender();
 
     void cast() const override {};
+
+    static sf::Sprite addSprite(const sf::Sprite &sprite);
+
+    static sf::Sprite addFrame(const sf::Sprite &sprite);
 };

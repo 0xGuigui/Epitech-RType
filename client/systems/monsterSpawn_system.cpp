@@ -5,7 +5,6 @@
 #include "client/rtype.h"
 
 void monsterSpawnSystem::update(sf::RenderWindow &window, World &world, float delta) {
-    _maxSpawn = 10;
     _spawnRate = 100;
     _spawnPositionY = rand() % (window.getSize().y - 100) + 100;
     _spawnPositionX = window.getSize().x + rand() % 100;
@@ -14,15 +13,17 @@ void monsterSpawnSystem::update(sf::RenderWindow &window, World &world, float de
 
 
     if (_spawnTimer <= 0) {
-        if (_spawnCount < _maxSpawn) {
-            std::shared_ptr<Monster> monster = world.createEntity<Monster>();
-            monster->getComponent<PositionComponent>()->setPosition(_spawnPositionX, _spawnPositionY);
-            monster->getComponent<HealthComponent>()->setHealth(100);
-            monster->getComponent<HealthComponent>()->setDamage(100);
-            monster->getComponent<VelocityComponent>()->setVelocity(_monsterSpeedX, _monsterSpeedY);
-            _spawnCount++;
-            _spawnTimer = _spawnRate;
-        }
+        _monsterType = rand() % 4;
+        monsterType type = static_cast<monsterType>(_monsterType);
+
+        std::shared_ptr<Monster> monster = world.createEntity<Monster>(type);
+        monster->getComponent<PositionComponent>()->setPosition(_spawnPositionX, _spawnPositionY);
+        monster->getComponent<HealthComponent>()->setHealth(100);
+        monster->getComponent<HealthComponent>()->setDamage(100);
+        monster->getComponent<VelocityComponent>()->setVelocity(-_monsterSpeedX, _monsterSpeedY);
+
+        _spawnCount++;
+        _spawnTimer = _spawnRate;
     } else {
         _spawnTimer--;
     }

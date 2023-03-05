@@ -19,3 +19,15 @@ sf::Sprite &RenderComponent::getRender() {
 void RenderComponent::setSprite(const sf::Sprite &sprite) {
     _render = sprite;
 }
+
+sf::Sprite RenderComponent::addSprite(const sf::Sprite &sprite) {
+    return {sprite};
+}
+
+sf::Sprite RenderComponent::addFrame(const sf::Sprite &sprite) {
+    return {sprite};
+}
+
+sf::Sprite addFrame(const sf::Sprite &sprite) {
+    return sprite;
+}

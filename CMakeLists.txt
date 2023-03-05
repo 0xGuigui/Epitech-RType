@@ -23,7 +23,7 @@ set(CLIENT_SRC client/main.cpp
         client/systems/health_system.cpp
         client/entities/player.cpp
         client/entities/projectile.cpp
-        client/entities/monster.cpp client/entities/indestructibleObstacle.cpp client/entities/obstacle.cpp client/entities/powerup.cpp client/init.cpp client/systems/system.cpp client/utils/background.cpp client/systems/background_system.cpp client/components/animation_component.cpp client/systems/animation_system.cpp client/components/audio_component.cpp client/systems/audio_system.cpp client/systems/monsterSpawn_system.cpp)
+        client/entities/monster.cpp client/entities/indestructibleObstacle.cpp client/entities/obstacle.cpp client/entities/powerup.cpp client/init.cpp client/systems/system.cpp client/utils/background.cpp client/systems/background_system.cpp client/components/animation_component.cpp client/systems/animation_system.cpp client/systems/monsterSpawn_system.cpp)
 
 include(FetchContent)
 FetchContent_Declare(SFML
@@ -34,8 +34,8 @@ FetchContent_MakeAvailable(SFML)
 add_executable(r-type_client ${CLIENT_SRC} ${SHARED_SRC})
 add_executable(r-type_server ${SERVER_SRC} ${SHARED_SRC})
 
-target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-network sfml-audio)
-target_link_libraries(r-type_server PRIVATE sfml-graphics sfml-network sfml-audio)
+target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-network)
+target_link_libraries(r-type_server PRIVATE sfml-graphics sfml-network)
 
 target_compile_features(r-type_client PRIVATE cxx_std_20)
 target_compile_features(r-type_server PRIVATE cxx_std_20)

@@ -22,7 +22,6 @@ Player::Player(PlayerColor playerColor) : Entity() {
     HealthComponent health(100, 0);
     health.setOnDeath([this]() {
         this->eraseSelf();
-        //close the game
         std::cout << "You died" << std::endl;
     });
     addComponent<HealthComponent>(health);

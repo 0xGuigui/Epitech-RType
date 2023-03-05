@@ -16,10 +16,12 @@ private:
     std::vector<std::shared_ptr<System>> _systems = {
             std::make_shared<BackgroundSystem>(),
             std::make_shared<AnimationSystem>(),
+            std::make_shared<audioSystem>(),
             std::make_shared<HealthSystem>(),
             std::make_shared<HitboxSystem>(),
             std::make_shared<MovementSystem>(),
-            std::make_shared<RenderSystem>()
+            std::make_shared<monsterSpawnSystem>(),
+            std::make_shared<RenderSystem>(),
     };
     // timer clock to calculate delta time between systems update
     sf::Clock _timer;

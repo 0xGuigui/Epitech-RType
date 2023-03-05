@@ -2,7 +2,7 @@
 
 #include "client/systems/system.h"
 
-class AudioSystem : public System {
+class audioSystem : public System {
 public:
     void update(sf::RenderWindow &window, World &world, float delta) override;
 

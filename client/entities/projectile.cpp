@@ -13,7 +13,7 @@ Projectile::Projectile(const std::shared_ptr<Entity>& creator) : Entity() {
     addComponent<PositionComponent>(200, 500);
     addComponent<HealthComponent>(1, 40);
     addComponent<RenderComponent>(spr);
-    addComponent<VelocityComponent>(100, 0);
+    addComponent<VelocityComponent>(300, 0);
 
     HitboxComponent hitboxComponent(spr, [this](std::shared_ptr<Entity> &e, const std::type_index &type) {
         if (_theCreator) {

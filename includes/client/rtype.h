@@ -8,7 +8,7 @@
 #include "client/world.h"
 
 struct RType {
-    explicit RType(const std::string &basePath) : textures(basePath + "/textures"), fonts(basePath + "/fonts") {}
+    explicit RType(const std::string &basePath) : textures(basePath + "/textures"), fonts(basePath + "/fonts"), sounds(basePath + "/sounds") {};
 
     RType(const RType &) = delete;
 
@@ -20,6 +20,7 @@ struct RType {
 
     ResourceManager<sf::Texture> textures;
     ResourceManager<sf::Font> fonts;
+    ResourceManager<sf::SoundBuffer> sounds;
     KeyboardManager keyboard;
     World world;
 };
